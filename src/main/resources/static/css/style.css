@@ -448,6 +448,39 @@ textarea:focus {
   padding: 0.5rem 0;
 }
 
+/* -- Detection table -- */
+
+.detections-table {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.detection-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.detection-row + .detection-row {
+  border-top: 1px solid var(--border);
+}
+
+.detection-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.detection-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-width: 6rem;
+  text-transform: capitalize;
+}
+
 /* -- VAD Timeline -- */
 
 .timeline-container {

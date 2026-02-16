@@ -7,6 +7,7 @@ import io.github.inference4j.audio.SpeechRecognizer;
 import io.github.inference4j.audio.VoiceActivityDetector;
 import io.github.inference4j.nlp.TextClassifier;
 import io.github.inference4j.vision.ImageClassifier;
+import io.github.inference4j.vision.ObjectDetector;
 import io.github.inference4j.vision.TextDetector;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -24,14 +25,17 @@ public class ModelWarmup {
 
 	private final SpeechRecognizer speechRecognizer;
 
+	private final ObjectDetector objectDetector;
+
 	private final VoiceActivityDetector voiceActivityDetector;
 
 	public ModelWarmup(TextClassifier textClassifier, Map<String, ImageClassifier> imageClassifiers,
-			TextDetector textDetector, SpeechRecognizer speechRecognizer,
-			VoiceActivityDetector voiceActivityDetector) {
+			TextDetector textDetector, ObjectDetector objectDetector,
+			SpeechRecognizer speechRecognizer, VoiceActivityDetector voiceActivityDetector) {
 		this.textClassifier = textClassifier;
 		this.imageClassifiers = imageClassifiers;
 		this.textDetector = textDetector;
+		this.objectDetector = objectDetector;
 		this.speechRecognizer = speechRecognizer;
 		this.voiceActivityDetector = voiceActivityDetector;
 	}
@@ -42,6 +46,7 @@ public class ModelWarmup {
 		var dummy = new BufferedImage(1, 1, BufferedImage.TYPE_3BYTE_BGR);
 		imageClassifiers.values().forEach(c -> c.classify(dummy));
 		textDetector.detect(dummy);
+		objectDetector.detect(dummy);
 		var silence = new float[16000];
 		speechRecognizer.transcribe(silence, 16000);
 		voiceActivityDetector.detect(silence, 16000);

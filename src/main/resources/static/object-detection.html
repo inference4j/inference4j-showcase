@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Object Detection — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container container--wide">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Object Detection</h1>
+      <p>Detect and label objects in images using YOLO26 (COCO, 80 classes).</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="image-input">Upload an image <span class="text-muted">(max 4 MB)</span></label>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="image-input" accept="image/*" hidden>
+          <p class="drop-zone-text">Drop an image here or <button type="button" class="link-btn" id="browse-btn">browse</button></p>
+          <img id="upload-preview" class="preview-img" hidden>
+          <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="detect-btn" disabled>Detect objects</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Results</label>
+        <div class="comparison">
+          <div class="comparison-pane">
+            <span class="comparison-label">Original</span>
+            <img id="original-img" class="comparison-img">
+          </div>
+          <div class="comparison-pane">
+            <span class="comparison-label">Detections</span>
+            <img id="annotated-img" class="comparison-img">
+          </div>
+        </div>
+        <div id="detections-table" class="detections-table"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/object-detection.js"></script>
+</body>
+</html>
