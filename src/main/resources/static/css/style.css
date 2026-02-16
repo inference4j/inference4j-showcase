@@ -415,10 +415,47 @@ textarea:focus {
   text-decoration: underline;
 }
 
+/* -- Comparison (side-by-side) -- */
+
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.comparison-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.comparison-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.comparison-img {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  object-fit: contain;
+}
+
+.container--wide {
+  max-width: 960px;
+}
+
 /* -- Responsive -- */
 
 @media (min-width: 640px) {
   .demos {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .comparison {
+    grid-template-columns: 1fr 1fr;
   }
 }

@@ -10,3 +10,6 @@ inference4j:
   nlp:
     text-classifier:
       enabled: true
+  vision:
+    text-detector:
+      enabled: true
