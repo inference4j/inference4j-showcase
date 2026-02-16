@@ -13,3 +13,8 @@ inference4j:
   vision:
     text-detector:
       enabled: true
+  audio:
+    speech-recognizer:
+      enabled: true
+    vad:
+      enabled: true

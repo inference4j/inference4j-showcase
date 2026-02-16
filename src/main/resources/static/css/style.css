@@ -415,6 +415,156 @@ textarea:focus {
   text-decoration: underline;
 }
 
+/* -- Audio preview -- */
+
+.audio-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+.file-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+  word-break: break-all;
+  text-align: center;
+}
+
+.audio-preview audio {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* -- Transcription -- */
+
+.transcription-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text);
+  padding: 0.5rem 0;
+}
+
+/* -- VAD Timeline -- */
+
+.timeline-container {
+  margin-bottom: 1rem;
+}
+
+.timeline {
+  position: relative;
+  height: 36px;
+  background: #fee2e2;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.timeline-segment {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: #22c55e;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+
+.timeline-playhead {
+  position: absolute;
+  top: -2px;
+  width: 3px;
+  height: calc(100% + 4px);
+  background: var(--text);
+  border-radius: 2px;
+  left: 0%;
+  z-index: 2;
+  transition: left 0.05s linear;
+  pointer-events: none;
+}
+
+.timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.timeline-legend {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.legend-speech {
+  background: #22c55e;
+}
+
+.legend-silence {
+  background: #fee2e2;
+}
+
+.segments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.segment-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.segment-row:last-child {
+  border-bottom: none;
+}
+
+.segment-index {
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 2rem;
+}
+
+.segment-time {
+  font-family: var(--font-mono);
+  flex: 1;
+}
+
+.segment-duration {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.segment-confidence {
+  font-family: var(--font-mono);
+  color: var(--positive);
+  font-weight: 600;
+  min-width: 2.5rem;
+  text-align: right;
+}
+
 /* -- Comparison (side-by-side) -- */
 
 .comparison {

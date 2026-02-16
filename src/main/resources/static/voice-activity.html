@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Activity Detection — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Voice Activity Detection</h1>
+      <p>Detect speech segments in audio using Silero VAD.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="audio-input">Upload a WAV file <span class="text-muted">(max 4 MB)</span></label>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="audio-input" accept=".wav,audio/wav" hidden>
+          <p class="drop-zone-text">Drop a WAV file here or <button type="button" class="link-btn" id="browse-btn">browse</button></p>
+          <div id="audio-preview" class="audio-preview" hidden>
+            <span id="file-name" class="file-name"></span>
+            <audio id="player" controls></audio>
+          </div>
+          <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="detect-btn" disabled>Detect activity</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Activity timeline</label>
+        <div class="timeline-container">
+          <div class="timeline" id="timeline">
+            <div class="timeline-playhead" id="playhead"></div>
+          </div>
+          <div class="timeline-labels">
+            <span id="time-start">0:00</span>
+            <span id="time-end">0:00</span>
+          </div>
+        </div>
+
+        <div class="timeline-legend">
+          <span class="legend-item"><span class="legend-swatch legend-speech"></span> Speech</span>
+          <span class="legend-item"><span class="legend-swatch legend-silence"></span> Silence</span>
+        </div>
+
+        <div id="segments-list" class="segments-list"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/voice-activity.js"></script>
+</body>
+</html>
