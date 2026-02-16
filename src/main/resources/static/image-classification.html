@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Classification — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Image Classification</h1>
+      <p>Identify objects in images using ImageNet models (1000 classes).</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="image-input">Upload an image <span class="text-muted">(max 4 MB)</span></label>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="image-input" accept="image/*" hidden>
+          <p class="drop-zone-text">Drop an image here or <button type="button" class="link-btn" id="browse-btn">browse</button></p>
+          <img id="preview" class="preview-img" hidden>
+          <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label for="model-select">Model</label>
+          <select id="model-select" class="select">
+            <option value="resnet">ResNet-50</option>
+            <option value="efficientnet">EfficientNet</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="classify-btn" disabled>Classify</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Top 5 predictions</label>
+        <div id="results-body"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/image-classification.js"></script>
+</body>
+</html>

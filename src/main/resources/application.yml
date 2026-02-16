@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: inference4j-showcase
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 4MB
+
+inference4j:
+  nlp:
+    text-classifier:
+      enabled: true

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentiment Analysis — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Sentiment Analysis</h1>
+      <p>Classify text as positive or negative using DistilBERT (SST-2).</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="input-text">Enter text</label>
+        <textarea id="input-text" placeholder="Type something or pick an example below..."></textarea>
+
+        <div class="actions">
+          <button class="btn" id="analyze-btn">Analyze</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="This movie was absolutely fantastic, I loved every minute of it!">Positive review</button>
+            <button class="example-btn" data-text="The service was terrible and the food was cold. Never going back.">Negative review</button>
+            <button class="example-btn" data-text="I just got promoted at work, best day ever!">Good news</button>
+            <button class="example-btn" data-text="The project deadline was missed again and the client is furious.">Bad news</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Results</label>
+        <div id="results-body"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/sentiment.js"></script>
+</body>
+</html>
