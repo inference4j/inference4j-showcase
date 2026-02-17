@@ -15,7 +15,7 @@ Interactive demos of [inference4j](https://github.com/inference4j/inference4j) â
 
 ## Prerequisites
 
-- Java 25+
+- Java 17+
 - Gradle 9.3+
 
 ## Running
