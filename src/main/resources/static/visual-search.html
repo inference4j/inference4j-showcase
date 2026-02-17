@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visual Search — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Visual Search</h1>
+      <p>Zero-shot image classification with CLIP — describe what to look for.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="image-input">Upload an image <span class="text-muted">(max 4 MB)</span></label>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="image-input" accept="image/*" hidden>
+          <p class="drop-zone-text">Drop an image here or <button type="button" class="link-btn" id="browse-btn">browse</button></p>
+          <img id="preview" class="preview-img" hidden>
+          <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label for="labels-input">Candidate labels <span class="text-muted">(comma-separated)</span></label>
+          <input type="text" id="labels-input" class="select" placeholder="a photo of a cat, a photo of a dog, a photo of a bird">
+        </div>
+
+        <div style="margin-top: 0.75rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-labels="a photo of a cat, a photo of a dog, a photo of a bird">Animals</button>
+            <button class="example-btn" data-labels="a photo of food, a photo of a person, a photo of a landscape">Scene type</button>
+            <button class="example-btn" data-labels="a happy photo, a sad photo, a scary photo">Mood</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="classify-btn" disabled>Classify</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Results</label>
+        <div id="results-body"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/visual-search.js"></script>
+</body>
+</html>

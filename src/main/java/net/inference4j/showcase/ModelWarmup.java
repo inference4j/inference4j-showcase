@@ -1,10 +1,12 @@
 package net.inference4j.showcase;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.util.Map;
 
 import io.github.inference4j.audio.SpeechRecognizer;
 import io.github.inference4j.audio.VoiceActivityDetector;
+import io.github.inference4j.multimodal.ClipClassifier;
 import io.github.inference4j.nlp.TextClassifier;
 import io.github.inference4j.vision.ImageClassifier;
 import io.github.inference4j.vision.ObjectDetector;
@@ -27,15 +29,18 @@ public class ModelWarmup {
 
 	private final ObjectDetector objectDetector;
 
+	private final ClipClassifier clipClassifier;
+
 	private final VoiceActivityDetector voiceActivityDetector;
 
 	public ModelWarmup(TextClassifier textClassifier, Map<String, ImageClassifier> imageClassifiers,
-			TextDetector textDetector, ObjectDetector objectDetector,
+			TextDetector textDetector, ObjectDetector objectDetector, ClipClassifier clipClassifier,
 			SpeechRecognizer speechRecognizer, VoiceActivityDetector voiceActivityDetector) {
 		this.textClassifier = textClassifier;
 		this.imageClassifiers = imageClassifiers;
 		this.textDetector = textDetector;
 		this.objectDetector = objectDetector;
+		this.clipClassifier = clipClassifier;
 		this.speechRecognizer = speechRecognizer;
 		this.voiceActivityDetector = voiceActivityDetector;
 	}
@@ -47,6 +52,7 @@ public class ModelWarmup {
 		imageClassifiers.values().forEach(c -> c.classify(dummy));
 		textDetector.detect(dummy);
 		objectDetector.detect(dummy);
+		clipClassifier.classify(dummy, List.of("warmup"));
 		var silence = new float[16000];
 		speechRecognizer.transcribe(silence, 16000);
 		voiceActivityDetector.detect(silence, 16000);

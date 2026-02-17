@@ -9,6 +9,7 @@ Interactive demos of [inference4j](https://github.com/inference4j/inference4j) â
 | Sentiment Analysis | DistilBERT (SST-2) | NLP |
 | Image Classification | ResNet-50 / EfficientNet | Vision |
 | Object Detection | YOLO26 (COCO, 80 classes) | Vision |
+| Visual Search | CLIP (ViT-B/32) | Vision |
 | Text Detection | CRAFT | Vision |
 | Speech to Text | Wav2Vec2 | Audio |
 | Voice Activity Detection | Silero VAD | Audio |
