@@ -9,8 +9,8 @@ import io.github.inference4j.nlp.TextGenerator;
 
 import jakarta.annotation.PreDestroy;
 
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +22,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RequestMapping("/api/text-generation")
 public class TextGenerationController {
 
-	private final Map<String, TextGenerator> generators;
+	private final Map<String, ObjectProvider<TextGenerator>> generators;
 	private final ExecutorService executor = Executors.newFixedThreadPool(2);
 
 	public TextGenerationController(
-			@Lazy @Qualifier("phi3Generator") TextGenerator phi3,
-			@Lazy @Qualifier("deepSeekGenerator") TextGenerator deepSeek) {
+			@Qualifier("phi3Generator") ObjectProvider<TextGenerator> phi3,
+			@Qualifier("deepSeekGenerator") ObjectProvider<TextGenerator> deepSeek) {
 		this.generators = Map.of(
 			"phi3", phi3,
 			"deepseek", deepSeek
@@ -37,11 +37,12 @@ public class TextGenerationController {
 	@PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public SseEmitter generate(@RequestBody GenerateRequest request) {
 		String model = request.model();
-		TextGenerator generator = generators.get(model);
-		if (generator == null) {
+		ObjectProvider<TextGenerator> provider = generators.get(model);
+		if (provider == null) {
 			throw new IllegalArgumentException("Unknown model: " + model);
 		}
 
+		TextGenerator generator = provider.getObject();
 		SseEmitter emitter = new SseEmitter(300_000L);
 
 		executor.submit(() -> {

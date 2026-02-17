@@ -21,7 +21,9 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'io.github.inference4j:inference4j-spring-boot-starter:latest.release'
-	implementation 'io.github.inference4j:inference4j-genai:latest.release'
+	implementation('io.github.inference4j:inference4j-genai:latest.release') {
+		exclude group: 'org.slf4j', module: 'slf4j-nop'
+	}
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
