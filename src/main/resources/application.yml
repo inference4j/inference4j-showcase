@@ -1,6 +1,9 @@
 spring:
   application:
     name: inference4j-showcase
+  mvc:
+    async:
+      request-timeout: 300000
   servlet:
     multipart:
       max-file-size: 4MB

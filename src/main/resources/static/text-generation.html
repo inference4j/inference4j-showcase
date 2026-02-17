@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Generation — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Text Generation</h1>
+      <p>Generate text with Phi-3 Mini or DeepSeek-R1 — streamed token by token.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="warning-banner">
+        Models are not preloaded. The first request downloads the model and may take several minutes.
+      </div>
+
+      <div class="card">
+        <label for="model-select">Model</label>
+        <select id="model-select" class="select">
+          <option value="deepseek">DeepSeek-R1 1.5B (~1 GB)</option>
+          <option value="phi3">Phi-3 Mini (~2.7 GB)</option>
+        </select>
+
+        <label for="input-text" style="margin-top: 1rem;">Prompt</label>
+        <textarea id="input-text" placeholder="Type a prompt or pick an example below..."></textarea>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="Explain recursion in one sentence">Recursion</button>
+            <button class="example-btn" data-text="Write a haiku about Java">Haiku</button>
+            <button class="example-btn" data-text="What are the benefits of functional programming?">Functional programming</button>
+            <button class="example-btn" data-text="List 3 fun facts about the ocean">Ocean facts</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="generate-btn">Generate</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div id="messages"></div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/text-generation.js"></script>
+</body>
+</html>

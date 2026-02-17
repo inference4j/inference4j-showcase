@@ -13,6 +13,7 @@ Interactive demos of [inference4j](https://github.com/inference4j/inference4j) â
 | Text Detection | CRAFT | Vision |
 | Speech to Text | Wav2Vec2 | Audio |
 | Voice Activity Detection | Silero VAD | Audio |
+| Text Generation | Phi-3 Mini / DeepSeek-R1 1.5B | GenAI |
 
 ## Prerequisites
 
