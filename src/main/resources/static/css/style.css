@@ -694,6 +694,14 @@ textarea:focus {
   color: var(--text-muted);
 }
 
+.message-thumb {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: 6px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
 /* -- Responsive -- */
 
 @media (min-width: 640px) {
