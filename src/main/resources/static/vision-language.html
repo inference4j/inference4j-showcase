@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vision Language — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Vision Language</h1>
+      <p>Ask questions about images using Phi-3.5 Vision — streamed token by token.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="warning-banner">
+        Model is not preloaded. The first request downloads the model and may take several minutes (~3.3 GB).
+      </div>
+
+      <div class="card">
+        <label for="image-input">Upload an image <span class="text-muted">(max 4 MB)</span></label>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="image-input" accept="image/*" hidden>
+          <p class="drop-zone-text">Drop an image here or <button type="button" class="link-btn" id="browse-btn">browse</button></p>
+          <img id="preview" class="preview-img" hidden>
+          <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label for="prompt-input">Prompt</label>
+          <textarea id="prompt-input" placeholder="Type a prompt or pick an example below..."></textarea>
+        </div>
+
+        <div style="margin-top: 0.75rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-prompt="Describe this image.">Describe</button>
+            <button class="example-btn" data-prompt="What colors are prominent in this image?">Colors</button>
+            <button class="example-btn" data-prompt="What objects can you see in this image?">Objects</button>
+            <button class="example-btn" data-prompt="What is the mood or atmosphere of this image?">Mood</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="generate-btn" disabled>Generate</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div id="messages"></div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/vision-language.js"></script>
+</body>
+</html>
