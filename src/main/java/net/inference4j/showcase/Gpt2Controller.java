@@ -4,13 +4,12 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import io.github.inference4j.genai.nlp.TextGenerator;
 import io.github.inference4j.generation.GenerationResult;
+import io.github.inference4j.nlp.Gpt2TextGenerator;
 
 import jakarta.annotation.PreDestroy;
 
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,30 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
-@RequestMapping("/api/text-generation")
-public class TextGenerationController {
+@RequestMapping("/api/gpt2")
+public class Gpt2Controller {
 
-	private final Map<String, ObjectProvider<TextGenerator>> generators;
-	private final ExecutorService executor = Executors.newFixedThreadPool(2);
+	private final ObjectProvider<Gpt2TextGenerator> generatorProvider;
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-	public TextGenerationController(
-			@Qualifier("phi3Generator") ObjectProvider<TextGenerator> phi3,
-			@Qualifier("deepSeekGenerator") ObjectProvider<TextGenerator> deepSeek) {
-		this.generators = Map.of(
-			"phi3", phi3,
-			"deepseek", deepSeek
-		);
+	public Gpt2Controller(ObjectProvider<Gpt2TextGenerator> generatorProvider) {
+		this.generatorProvider = generatorProvider;
 	}
 
 	@PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public SseEmitter generate(@RequestBody GenerateRequest request) {
-		String model = request.model();
-		ObjectProvider<TextGenerator> provider = generators.get(model);
-		if (provider == null) {
-			throw new IllegalArgumentException("Unknown model: " + model);
-		}
-
-		TextGenerator generator = provider.getObject();
+		Gpt2TextGenerator generator = generatorProvider.getObject();
 		SseEmitter emitter = new SseEmitter(300_000L);
 
 		executor.submit(() -> {
@@ -76,6 +64,6 @@ public class TextGenerationController {
 		executor.shutdownNow();
 	}
 
-	record GenerateRequest(String prompt, String model) {}
+	record GenerateRequest(String prompt) {}
 
 }

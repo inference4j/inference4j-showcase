@@ -1,7 +1,7 @@
 package net.inference4j.showcase;
 
 import io.github.inference4j.genai.ModelSources;
-import io.github.inference4j.nlp.TextGenerator;
+import io.github.inference4j.genai.nlp.TextGenerator;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

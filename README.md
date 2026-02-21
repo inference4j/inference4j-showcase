@@ -7,6 +7,7 @@ Interactive demos of [inference4j](https://github.com/inference4j/inference4j) â
 | Demo | Model | Domain |
 |------|-------|--------|
 | Sentiment Analysis | DistilBERT (SST-2) | NLP |
+| Text Generation (GPT-2) | GPT-2 124M | NLP |
 | Image Classification | ResNet-50 / EfficientNet | Vision |
 | Object Detection | YOLO26 (COCO, 80 classes) | Vision |
 | Visual Search | CLIP (ViT-B/32) | Vision |
@@ -14,6 +15,7 @@ Interactive demos of [inference4j](https://github.com/inference4j/inference4j) â
 | Speech to Text | Wav2Vec2 | Audio |
 | Voice Activity Detection | Silero VAD | Audio |
 | Text Generation | Phi-3 Mini / DeepSeek-R1 1.5B | GenAI |
+| Vision-Language | Phi-3.5 Vision | GenAI |
 
 ## Prerequisites
 
@@ -66,5 +68,5 @@ Image classification and object detection are configured manually via `@Configur
 ## Stack
 
 - Spring Boot 4.0
-- [inference4j](https://github.com/inference4j/inference4j) (Spring Boot starter + tasks)
+- [inference4j](https://github.com/inference4j/inference4j) 0.6.0 (Spring Boot starter + core + genai)
 - Vanilla HTML/CSS/JS (no frontend framework)

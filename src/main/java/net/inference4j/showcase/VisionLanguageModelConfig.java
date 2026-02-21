@@ -1,7 +1,7 @@
 package net.inference4j.showcase;
 
 import io.github.inference4j.genai.ModelSources;
-import io.github.inference4j.vision.VisionLanguageModel;
+import io.github.inference4j.genai.vision.VisionLanguageModel;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
