@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import io.github.inference4j.genai.GenerationResult;
-import io.github.inference4j.vision.VisionInput;
-import io.github.inference4j.vision.VisionLanguageModel;
+import io.github.inference4j.genai.vision.VisionInput;
+import io.github.inference4j.genai.vision.VisionLanguageModel;
+import io.github.inference4j.generation.GenerationResult;
 
 import jakarta.annotation.PreDestroy;
 
@@ -66,8 +66,8 @@ public class VisionLanguageModelController {
 					}
 				});
 				emitter.send(SseEmitter.event().name("done").data(
-					Map.of("tokenCount", result.tokenCount(),
-						   "durationMillis", result.durationMillis())
+					Map.of("tokenCount", result.generatedTokens(),
+						   "durationMillis", result.duration().toMillis())
 				));
 				emitter.complete();
 			} catch (Exception e) {

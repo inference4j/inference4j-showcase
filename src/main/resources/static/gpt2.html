@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPT-2 Text Generation — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>GPT-2 Text Generation</h1>
+      <p>Complete text prompts with GPT-2 (124M) — pure ONNX Runtime, no genai dependency.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="warning-banner">
+        The model is not preloaded. The first request downloads GPT-2 (~500 MB) and may take a few minutes.
+      </div>
+
+      <div class="card">
+        <label for="input-text">Prompt</label>
+        <textarea id="input-text" placeholder="Type a prompt or pick an example below..."></textarea>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="Once upon a time">Once upon a time</button>
+            <button class="example-btn" data-text="The meaning of life is">Meaning of life</button>
+            <button class="example-btn" data-text="In a galaxy far far away">Star Wars</button>
+            <button class="example-btn" data-text="The quick brown fox">Quick brown fox</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="generate-btn">Generate</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div id="messages"></div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/gpt2.js"></script>
+</body>
+</html>
