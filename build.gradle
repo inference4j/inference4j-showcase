@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
-ext.inference4jVersion = '0.6.0'
+ext.inference4jVersion = '0.7.0'
 
 group = 'net.inference4j'
 version = inference4jVersion
@@ -17,6 +17,7 @@ java {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 

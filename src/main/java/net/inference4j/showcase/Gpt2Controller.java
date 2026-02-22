@@ -1,15 +1,15 @@
 package net.inference4j.showcase;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import io.github.inference4j.generation.GenerationResult;
-import io.github.inference4j.nlp.Gpt2TextGenerator;
+import io.github.inference4j.nlp.OnnxTextGenerator;
 
 import jakarta.annotation.PreDestroy;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,20 +21,21 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RequestMapping("/api/gpt2")
 public class Gpt2Controller {
 
-	private final ObjectProvider<Gpt2TextGenerator> generatorProvider;
-	private final ExecutorService executor = Executors.newSingleThreadExecutor();
+	private static final Set<String> KNOWN_MODELS = Set.of("gpt2", "smollm2", "smollm2-1.7b", "qwen2");
 
-	public Gpt2Controller(ObjectProvider<Gpt2TextGenerator> generatorProvider) {
-		this.generatorProvider = generatorProvider;
-	}
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 	@PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public SseEmitter generate(@RequestBody GenerateRequest request) {
-		Gpt2TextGenerator generator = generatorProvider.getObject();
+		String model = request.model() != null ? request.model() : "gpt2";
+		if (!KNOWN_MODELS.contains(model)) {
+			throw new IllegalArgumentException("Unknown model: " + model);
+		}
+
 		SseEmitter emitter = new SseEmitter(300_000L);
 
 		executor.submit(() -> {
-			try {
+			try (OnnxTextGenerator generator = buildGenerator(model)) {
 				GenerationResult result = generator.generate(request.prompt(), token -> {
 					try {
 						emitter.send(SseEmitter.event().name("token").data(token));
@@ -59,11 +60,26 @@ public class Gpt2Controller {
 		return emitter;
 	}
 
+	private OnnxTextGenerator buildGenerator(String model) {
+		OnnxTextGenerator.Builder builder = switch (model) {
+			case "smollm2" -> OnnxTextGenerator.smolLM2();
+			case "smollm2-1.7b" -> OnnxTextGenerator.smolLM2_1_7B();
+			case "qwen2" -> OnnxTextGenerator.qwen2();
+			default -> OnnxTextGenerator.gpt2();
+		};
+		return builder
+			.maxNewTokens(256)
+			.temperature(0.8f)
+			.topK(50)
+			.topP(0.9f)
+			.build();
+	}
+
 	@PreDestroy
 	void shutdown() {
 		executor.shutdownNow();
 	}
 
-	record GenerateRequest(String prompt) {}
+	record GenerateRequest(String prompt, String model) {}
 
 }

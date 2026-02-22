@@ -3,33 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPT-2 Text Generation — inference4j showcase</title>
+  <title>Text Generation — inference4j showcase</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <div class="container">
     <header class="site-header">
       <a href="/" class="back-link">&larr; All demos</a>
-      <h1>GPT-2 Text Generation</h1>
-      <p>Complete text prompts with GPT-2 (124M) — pure ONNX Runtime, no genai dependency.</p>
+      <h1>Text Generation</h1>
+      <p>Generate text with GPT-2, SmolLM2, or Qwen2.5 — pure ONNX Runtime, streamed token by token.</p>
     </header>
 
     <section class="demo-section">
       <div class="warning-banner">
-        The model is not preloaded. The first request downloads GPT-2 (~500 MB) and may take a few minutes.
+        Models are loaded per request and released after each generation.
+        The first request for a model downloads it and may take a few minutes.
       </div>
 
       <div class="card">
-        <label for="input-text">Prompt</label>
+        <label for="model-select">Model</label>
+        <select id="model-select" class="select">
+          <option value="gpt2">GPT-2 124M (~500 MB) — completion</option>
+          <option value="smollm2">SmolLM2-360M-Instruct (~700 MB) — chat</option>
+          <option value="smollm2-1.7b">SmolLM2-1.7B-Instruct (~3.4 GB, FP16) — chat</option>
+          <option value="qwen2">Qwen2.5-1.5B-Instruct (~3 GB, FP16) — chat</option>
+        </select>
+
+        <label for="input-text" style="margin-top: 1rem;">Prompt</label>
         <textarea id="input-text" placeholder="Type a prompt or pick an example below..."></textarea>
 
         <div style="margin-top: 1rem;">
           <label>Examples</label>
           <div class="examples">
             <button class="example-btn" data-text="Once upon a time">Once upon a time</button>
-            <button class="example-btn" data-text="The meaning of life is">Meaning of life</button>
-            <button class="example-btn" data-text="In a galaxy far far away">Star Wars</button>
-            <button class="example-btn" data-text="The quick brown fox">Quick brown fox</button>
+            <button class="example-btn" data-text="Explain recursion in one sentence">Recursion</button>
+            <button class="example-btn" data-text="Write a haiku about Java">Haiku</button>
+            <button class="example-btn" data-text="What are the benefits of functional programming?">Functional programming</button>
           </div>
         </div>
 

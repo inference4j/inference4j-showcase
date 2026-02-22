@@ -2,6 +2,7 @@ const textarea = document.getElementById('input-text');
 const generateBtn = document.getElementById('generate-btn');
 const spinner = document.getElementById('spinner');
 const error = document.getElementById('error');
+const modelSelect = document.getElementById('model-select');
 const messages = document.getElementById('messages');
 
 document.querySelectorAll('.example-btn').forEach(btn => {
@@ -27,7 +28,8 @@ async function generate() {
   // Add user message bubble
   const userBubble = document.createElement('div');
   userBubble.className = 'card message message-user';
-  userBubble.textContent = prompt;
+  const selectedLabel = modelSelect.options[modelSelect.selectedIndex].text.split('—')[0].trim();
+  userBubble.textContent = prompt + ' (' + selectedLabel + ')';
   messages.appendChild(userBubble);
 
   // Add assistant message bubble
@@ -44,7 +46,7 @@ async function generate() {
     const res = await fetch('/api/gpt2', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt, model: modelSelect.value })
     });
 
     if (!res.ok) throw new Error(`Server error (${res.status})`);
