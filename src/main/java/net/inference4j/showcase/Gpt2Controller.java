@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RequestMapping("/api/gpt2")
 public class Gpt2Controller {
 
-	private static final Set<String> KNOWN_MODELS = Set.of("gpt2", "smollm2", "smollm2-1.7b", "qwen2");
+	private static final Set<String> KNOWN_MODELS = Set.of("gpt2", "smollm2", "smollm2-1.7b", "qwen2", "tinyllama");
 
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -65,6 +65,7 @@ public class Gpt2Controller {
 			case "smollm2" -> OnnxTextGenerator.smolLM2();
 			case "smollm2-1.7b" -> OnnxTextGenerator.smolLM2_1_7B();
 			case "qwen2" -> OnnxTextGenerator.qwen2();
+			case "tinyllama" -> OnnxTextGenerator.tinyLlama();
 			default -> OnnxTextGenerator.gpt2();
 		};
 		return builder
