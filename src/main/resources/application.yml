@@ -1,6 +1,18 @@
 spring:
   application:
     name: inference4j-showcase
+  datasource:
+    url: jdbc:h2:mem:chinook
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   mvc:
     async:
       request-timeout: 300000
