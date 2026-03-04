@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.springframework.boot:spring-boot-h2console'
 	implementation "io.github.inference4j:inference4j-spring-boot-starter:${inference4jVersion}"
 	implementation("io.github.inference4j:inference4j-genai:${inference4jVersion}") {
 		exclude group: 'org.slf4j', module: 'slf4j-nop'
