@@ -12,12 +12,16 @@ spring:
 inference4j:
   nlp:
     text-classifier:
-      enabled: true
+      enabled: false
   vision:
     text-detector:
-      enabled: true
+      enabled: false
   audio:
     speech-recognizer:
-      enabled: true
+      enabled: false
     vad:
-      enabled: true
+      enabled: false
+
+showcase:
+  model-cache:
+    idle-timeout: 10m

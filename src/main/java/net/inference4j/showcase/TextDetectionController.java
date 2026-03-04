@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import io.github.inference4j.vision.TextDetector;
+import io.github.inference4j.vision.CraftTextDetector;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/text-detection")
 public class TextDetectionController {
 
-	private final TextDetector detector;
+	private final ModelCache cache;
 
-	public TextDetectionController(TextDetector detector) {
-		this.detector = detector;
+	public TextDetectionController(ModelCache cache) {
+		this.cache = cache;
 	}
 
 	@PostMapping(produces = MediaType.IMAGE_PNG_VALUE)
@@ -36,6 +36,7 @@ public class TextDetectionController {
 			throw new IllegalArgumentException("Unsupported image format");
 		}
 
+		var detector = cache.get("craft", () -> CraftTextDetector.builder().build());
 		var regions = detector.detect(image, 0.4f, 0.4f);
 
 		var annotated = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);

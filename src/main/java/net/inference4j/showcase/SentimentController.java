@@ -2,8 +2,8 @@ package net.inference4j.showcase;
 
 import java.util.List;
 
+import io.github.inference4j.nlp.DistilBertTextClassifier;
 import io.github.inference4j.nlp.TextClassification;
-import io.github.inference4j.nlp.TextClassifier;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,16 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/sentiment")
 public class SentimentController {
 
-	private final TextClassifier classifier;
+	private final ModelCache cache;
 
-	public SentimentController(TextClassifier classifier) {
-		this.classifier = classifier;
+	public SentimentController(ModelCache cache) {
+		this.cache = cache;
 	}
 
 	@PostMapping
 	public List<TextClassification> analyze(@RequestBody String text) {
-		var results = classifier.classify(text);
-		return results;
+		var classifier = cache.get("distilbert-sentiment",
+				() -> DistilBertTextClassifier.builder().build());
+		return classifier.classify(text);
 	}
 
 }

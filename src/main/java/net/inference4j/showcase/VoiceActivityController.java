@@ -7,7 +7,7 @@ import java.util.List;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import io.github.inference4j.audio.VoiceActivityDetector;
+import io.github.inference4j.audio.SileroVadDetector;
 import io.github.inference4j.audio.VoiceSegment;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,10 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/voice-activity")
 public class VoiceActivityController {
 
-	private final VoiceActivityDetector detector;
+	private final ModelCache cache;
 
-	public VoiceActivityController(VoiceActivityDetector detector) {
-		this.detector = detector;
+	public VoiceActivityController(ModelCache cache) {
+		this.cache = cache;
 	}
 
 	@PostMapping
@@ -32,6 +32,8 @@ public class VoiceActivityController {
 		try {
 			file.transferTo(tmp);
 			float duration = audioDuration(tmp);
+			var detector = cache.get("silero-vad",
+					() -> SileroVadDetector.builder().build());
 			var segments = detector.detect(tmp);
 			return new VadResult(duration, segments);
 		}

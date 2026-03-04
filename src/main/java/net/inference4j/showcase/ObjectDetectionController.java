@@ -15,7 +15,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import io.github.inference4j.vision.Detection;
-import io.github.inference4j.vision.ObjectDetector;
+import io.github.inference4j.vision.Yolo26Detector;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,10 +40,10 @@ public class ObjectDetectionController {
 		new Color(251, 146, 60),  // orange
 	};
 
-	private final ObjectDetector detector;
+	private final ModelCache cache;
 
-	public ObjectDetectionController(ObjectDetector detector) {
-		this.detector = detector;
+	public ObjectDetectionController(ModelCache cache) {
+		this.cache = cache;
 	}
 
 	@PostMapping
@@ -53,6 +53,7 @@ public class ObjectDetectionController {
 			throw new IllegalArgumentException("Unsupported image format");
 		}
 
+		var detector = cache.get("yolo26", () -> Yolo26Detector.builder().build());
 		var detections = detector.detect(image);
 
 		var annotated = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);

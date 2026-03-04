@@ -23,7 +23,12 @@ public class Gpt2Controller {
 
 	private static final Set<String> KNOWN_MODELS = Set.of("gpt2", "smollm2", "smollm2-1.7b", "qwen2", "tinyllama");
 
+	private final ModelCache cache;
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+	public Gpt2Controller(ModelCache cache) {
+		this.cache = cache;
+	}
 
 	@PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public SseEmitter generate(@RequestBody GenerateRequest request) {
@@ -35,7 +40,8 @@ public class Gpt2Controller {
 		SseEmitter emitter = new SseEmitter(300_000L);
 
 		executor.submit(() -> {
-			try (OnnxTextGenerator generator = buildGenerator(model)) {
+			try {
+				OnnxTextGenerator generator = cache.get(model, () -> buildGenerator(model));
 				GenerationResult result = generator.generate(request.prompt(), token -> {
 					try {
 						emitter.send(SseEmitter.event().name("token").data(token));

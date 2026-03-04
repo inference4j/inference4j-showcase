@@ -7,13 +7,13 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import io.github.inference4j.genai.ModelSources;
 import io.github.inference4j.genai.vision.VisionInput;
 import io.github.inference4j.genai.vision.VisionLanguageModel;
 import io.github.inference4j.generation.GenerationResult;
 
 import jakarta.annotation.PreDestroy;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +26,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RequestMapping("/api/vision-language")
 public class VisionLanguageModelController {
 
-	private final ObjectProvider<VisionLanguageModel> modelProvider;
+	private final ModelCache cache;
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-	public VisionLanguageModelController(ObjectProvider<VisionLanguageModel> modelProvider) {
-		this.modelProvider = modelProvider;
+	public VisionLanguageModelController(ModelCache cache) {
+		this.cache = cache;
 	}
 
 	@PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -52,7 +52,11 @@ public class VisionLanguageModelController {
 		Path tempFile = Files.createTempFile("vision-", suffix);
 		file.transferTo(tempFile.toFile());
 
-		VisionLanguageModel model = modelProvider.getObject();
+		VisionLanguageModel model = cache.get("phi3-vision",
+				() -> VisionLanguageModel.builder()
+					.model(ModelSources.phi3Vision())
+					.maxLength(4096)
+					.build());
 		SseEmitter emitter = new SseEmitter(300_000L);
 
 		executor.submit(() -> {

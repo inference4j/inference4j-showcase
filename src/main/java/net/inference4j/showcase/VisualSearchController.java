@@ -19,10 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/visual-search")
 public class VisualSearchController {
 
-	private final ClipClassifier classifier;
+	private final ModelCache cache;
 
-	public VisualSearchController(ClipClassifier clipClassifier) {
-		this.classifier = clipClassifier;
+	public VisualSearchController(ModelCache cache) {
+		this.cache = cache;
 	}
 
 	@PostMapping
@@ -41,6 +41,7 @@ public class VisualSearchController {
 		if (candidateLabels.isEmpty()) {
 			throw new IllegalArgumentException("At least one label is required");
 		}
+		var classifier = cache.get("clip", () -> ClipClassifier.builder().build());
 		return classifier.classify(image, candidateLabels);
 	}
 

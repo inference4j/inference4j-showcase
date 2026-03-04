@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Summarization — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Summarization</h1>
+      <p>Summarize long text using BART — streamed token by token.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="warning-banner">
+        Models are loaded per request and cached for reuse.
+        The first request for a model downloads it and may take a few minutes.
+      </div>
+
+      <div class="card">
+        <label for="model-select">Model</label>
+        <select id="model-select" class="select">
+          <option value="distilbart-cnn">DistilBART CNN 306M (fast)</option>
+          <option value="bart-large-cnn">BART Large CNN 406M (best quality)</option>
+        </select>
+
+        <label for="input-text" style="margin-top: 1rem;">Text</label>
+        <textarea id="input-text" rows="10" placeholder="Paste an article or pick an example below..."></textarea>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, and the tallest structure in Paris. Its base is square, measuring 125 metres (410 ft) on each side. During its construction, the Eiffel Tower surpassed the Washington Monument to become the tallest man-made structure in the world, a title it held for 41 years until the Chrysler Building in New York City was finished in 1930. It was the first structure to reach a height of 300 metres. Due to the addition of a broadcasting aerial at the top of the tower in 1957, it is now taller than the Chrysler Building by 5.2 metres (17 ft). Excluding transmitters, the Eiffel Tower is the second tallest free-standing structure in France after the Millau Viaduct.">Eiffel Tower</button>
+            <button class="example-btn" data-text="The Amazon rainforest, alternatively the Amazon jungle, also known in English as Amazonia, is a moist broadleaf tropical rainforest in the Amazon biome that covers most of the Amazon basin of South America. This basin encompasses 7,000,000 km2 (2,700,000 sq mi), of which 5,500,000 km2 (2,100,000 sq mi) are covered by the rainforest. This region includes territory belonging to nine nations and 3,344 formally acknowledged indigenous territories. The majority of the forest is contained within Brazil, with 60% of the rainforest, followed by Peru with 13%, Colombia with 10%, and with minor amounts in Bolivia, Ecuador, French Guiana, Guyana, Suriname, and Venezuela.">Amazon Rainforest</button>
+            <button class="example-btn" data-text="Artificial intelligence (AI) has made significant strides in recent years, particularly in the field of natural language processing. Large language models, trained on vast amounts of text data, can now generate human-like text, translate languages, write different kinds of creative content, and answer your questions in an informative way. These models work by predicting the next token in a sequence, using transformer architectures that can attend to all parts of the input simultaneously. The rapid advancement of AI has raised important questions about its impact on society, including concerns about job displacement, misinformation, and the need for responsible development practices.">AI and NLP</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="summarize-btn">Summarize</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="result-card" style="display: none; margin-top: 1.5rem;">
+        <div id="result-output"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/summarization.js"></script>
+</body>
+</html>

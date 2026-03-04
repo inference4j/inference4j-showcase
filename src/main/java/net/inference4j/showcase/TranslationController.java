@@ -5,9 +5,8 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import io.github.inference4j.genai.ModelSources;
-import io.github.inference4j.genai.nlp.TextGenerator;
 import io.github.inference4j.generation.GenerationResult;
+import io.github.inference4j.nlp.MarianTranslator;
 
 import jakarta.annotation.PreDestroy;
 
@@ -19,31 +18,36 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
-@RequestMapping("/api/text-generation")
-public class TextGenerationController {
+@RequestMapping("/api/translation")
+public class TranslationController {
 
-	private static final Set<String> KNOWN_MODELS = Set.of("phi3", "deepseek");
+	private static final Set<String> KNOWN_TARGETS = Set.of("fr", "de", "es");
 
 	private final ModelCache cache;
-	private final ExecutorService executor = Executors.newFixedThreadPool(2);
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-	public TextGenerationController(ModelCache cache) {
+	public TranslationController(ModelCache cache) {
 		this.cache = cache;
 	}
 
 	@PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public SseEmitter generate(@RequestBody GenerateRequest request) {
-		String model = request.model();
-		if (!KNOWN_MODELS.contains(model)) {
-			throw new IllegalArgumentException("Unknown model: " + model);
+	public SseEmitter translate(@RequestBody TranslateRequest request) {
+		String target = request.target() != null ? request.target() : "fr";
+		if (!KNOWN_TARGETS.contains(target)) {
+			throw new IllegalArgumentException("Unknown target language: " + target);
 		}
 
-		TextGenerator generator = cache.get(model, () -> buildGenerator(model));
 		SseEmitter emitter = new SseEmitter(300_000L);
 
 		executor.submit(() -> {
 			try {
-				GenerationResult result = generator.generate(request.prompt(), token -> {
+				String key = "opus-mt-en-" + target;
+				MarianTranslator translator = cache.get(key,
+					() -> MarianTranslator.builder()
+						.modelId("inference4j/opus-mt-en-" + target)
+						.maxNewTokens(200)
+						.build());
+				GenerationResult result = translator.translate(request.text(), token -> {
 					try {
 						emitter.send(SseEmitter.event().name("token").data(token));
 					} catch (Exception e) {
@@ -67,23 +71,11 @@ public class TextGenerationController {
 		return emitter;
 	}
 
-	private TextGenerator buildGenerator(String model) {
-		var source = switch (model) {
-			case "deepseek" -> ModelSources.deepSeekR1_1_5B();
-			default -> ModelSources.phi3Mini();
-		};
-		return TextGenerator.builder()
-			.model(source)
-			.maxLength(512)
-			.temperature(0.7)
-			.build();
-	}
-
 	@PreDestroy
 	void shutdown() {
 		executor.shutdownNow();
 	}
 
-	record GenerateRequest(String prompt, String model) {}
+	record TranslateRequest(String text, String target) {}
 
 }

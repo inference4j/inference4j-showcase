@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translation — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Translation</h1>
+      <p>Translate English text to French, German, or Spanish using MarianMT.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="warning-banner">
+        Models are loaded per request and cached for reuse.
+        The first request for a language downloads the model and may take a few minutes.
+      </div>
+
+      <div class="card">
+        <label for="target-select">Target Language</label>
+        <select id="target-select" class="select">
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="es">Spanish</option>
+        </select>
+
+        <label for="input-text" style="margin-top: 1rem;">Text</label>
+        <textarea id="input-text" placeholder="Type English text or pick an example below..."></textarea>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="The weather is beautiful today.">Weather</button>
+            <button class="example-btn" data-text="Machine learning is transforming how we build software.">ML</button>
+            <button class="example-btn" data-text="I would like to book a table for two at eight o'clock.">Restaurant</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="translate-btn">Translate</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="result-card" style="display: none; margin-top: 1.5rem;">
+        <div class="result-source" id="result-source" style="color: var(--text-muted); margin-bottom: 0.75rem;"></div>
+        <div id="result-output"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/translation.js"></script>
+</body>
+</html>
