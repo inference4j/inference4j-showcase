@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Named Entity Recognition — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Named Entity Recognition</h1>
+      <p>Extract people, organizations, locations, and more from text using DistilBERT NER.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="input-text">Enter text</label>
+        <textarea id="input-text" placeholder="Type something or pick an example below..."></textarea>
+
+        <div class="actions">
+          <button class="btn" id="recognize-btn">Recognize</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="Marie Curie was born in Warsaw and later moved to Paris to study at the Sorbonne.">Scientists</button>
+            <button class="example-btn" data-text="Google announced a partnership with NASA to advance quantum computing research at their Mountain View campus.">Tech news</button>
+            <button class="example-btn" data-text="Leonardo da Vinci painted the Mona Lisa in Florence during the Italian Renaissance.">History</button>
+            <button class="example-btn" data-text="The United Nations headquarters is located in New York City, near the East River.">Geography</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Annotated text</label>
+        <div class="ner-annotated" id="annotated-text"></div>
+
+        <div id="entities-section" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+          <label>Entities</label>
+          <div id="entities-body"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/ner.js"></script>
+</body>
+</html>

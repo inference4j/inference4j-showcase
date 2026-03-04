@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text to SQL — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Text to SQL</h1>
+      <p>Generate SQL queries from natural language using T5 — query the Chinook database live.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="warning-banner">
+        Models are loaded on first use and cached for reuse.
+        T5-small (~240 MB) downloads quickly; T5-large (~3 GB) may take several minutes.
+      </div>
+
+      <div class="card">
+        <label for="model-select">Model</label>
+        <select id="model-select" class="select">
+          <option value="t5-small">T5-small (fast, ~240 MB)</option>
+          <option value="t5-large">T5-large (accurate, ~3 GB)</option>
+        </select>
+
+        <label for="input-text" style="margin-top: 1rem;">Question</label>
+        <textarea id="input-text" placeholder="Ask a question about the Chinook music database..."></textarea>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="How many tracks are in the Rock genre?">Rock tracks</button>
+            <button class="example-btn" data-text="List the top 5 artists by number of albums">Top artists</button>
+            <button class="example-btn" data-text="What is the total revenue by country?">Revenue</button>
+            <button class="example-btn" data-text="Which employee has the most customers?">Top employee</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="generate-btn">Generate SQL</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="sql-card" style="display: none; margin-top: 1.5rem;">
+        <label>Generated SQL</label>
+        <pre class="sql-output"><code id="sql-output"></code></pre>
+        <div class="actions">
+          <button class="btn btn-secondary" id="run-btn" disabled>Run SQL</button>
+          <div class="spinner" id="run-spinner"></div>
+          <span class="error-msg" id="run-error"></span>
+        </div>
+        <div class="generation-meta" id="gen-meta" style="display: none;"></div>
+      </div>
+
+      <div class="card" id="results-card" style="display: none; margin-top: 1.5rem;">
+        <label>Query Results</label>
+        <div class="sql-results-wrapper">
+          <table class="sql-results-table" id="results-table"></table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/text2sql.js"></script>
+</body>
+</html>

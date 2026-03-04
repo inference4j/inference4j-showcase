@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Correction — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Grammar Correction</h1>
+      <p>Fix grammatical errors in text using CoEdit (Grammarly T5).</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="input-text">Enter text with grammatical errors</label>
+        <textarea id="input-text" placeholder="Type something or pick an example below..."></textarea>
+
+        <div class="actions">
+          <button class="btn" id="correct-btn">Correct</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="She don't likes the weathers today and want to stays home.">Verb agreement</button>
+            <button class="example-btn" data-text="Me and him went to the store for buying some grocerys yesterday.">Pronouns &amp; spelling</button>
+            <button class="example-btn" data-text="The informations was very usefull for the students who needs help.">Plurals &amp; tense</button>
+            <button class="example-btn" data-text="I have been working here since five years and I am enjoy it very much.">Prepositions &amp; tense</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Original</label>
+        <div class="grammar-text" id="original-text"></div>
+
+        <div style="margin-top: 1rem;">
+          <label>Corrected</label>
+          <div class="grammar-text grammar-corrected" id="corrected-text"></div>
+        </div>
+
+        <div class="generation-meta" id="meta"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/grammar.js"></script>
+</body>
+</html>

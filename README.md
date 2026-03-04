@@ -2,12 +2,19 @@
 
 Interactive demos of [inference4j](https://github.com/inference4j/inference4j) — Java AI inference powered by ONNX Runtime.
 
+![inference4j showcase](docs/showcase.png)
+
 ## Demos
 
 | Demo | Model | Domain |
 |------|-------|--------|
 | Sentiment Analysis | DistilBERT (SST-2) | NLP |
-| Text Generation (GPT-2) | GPT-2 124M | NLP |
+| Named Entity Recognition | DistilBERT NER | NLP |
+| Grammar Correction | CoEdit Base (Grammarly T5) | NLP |
+| Translation | MarianMT | NLP |
+| Summarization | DistilBART CNN | NLP |
+| Text to SQL | T5-small | NLP |
+| Text Generation (GPT-2) | GPT-2 / SmolLM2 / Qwen2.5 | NLP |
 | Image Classification | ResNet-50 / EfficientNet | Vision |
 | Object Detection | YOLO26 (COCO, 80 classes) | Vision |
 | Visual Search | CLIP (ViT-B/32) | Vision |
@@ -44,29 +51,8 @@ In IntelliJ: **Run > Edit Configurations > Modify options > Add VM options**, th
 
 Alternatively, configure your IDE to delegate run/debug to Gradle (**Settings > Build, Execution, Deployment > Build Tools > Gradle > Build and run using: Gradle**), which picks up the `bootRun` JVM args automatically.
 
-## Configuration
-
-Models are configured in `application.yml`. Each model is opt-in — disable any you don't need:
-
-```yaml
-inference4j:
-  nlp:
-    text-classifier:
-      enabled: true
-  vision:
-    text-detector:
-      enabled: true
-  audio:
-    speech-recognizer:
-      enabled: true
-    vad:
-      enabled: true
-```
-
-Image classification and object detection are configured manually via `@Configuration` classes (see `ImageClassifierConfig` and `ObjectDetectorConfig`) since they use models not covered by the starter's defaults.
-
 ## Stack
 
 - Spring Boot 4.0
-- [inference4j](https://github.com/inference4j/inference4j) 0.6.0 (Spring Boot starter + core + genai)
+- [inference4j](https://github.com/inference4j/inference4j) 0.10.0 (Spring Boot starter + core + genai)
 - Vanilla HTML/CSS/JS (no frontend framework)
