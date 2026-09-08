@@ -53,6 +53,6 @@ Alternatively, configure your IDE to delegate run/debug to Gradle (**Settings > 
 
 ## Stack
 
-- Spring Boot 4.0
-- [inference4j](https://github.com/inference4j/inference4j) 0.10.0 (Spring Boot starter + core + genai)
+- Spring Boot 4.1
+- [inference4j](https://github.com/inference4j/inference4j) 0.12.0 (Spring Boot starter + core + genai)
 - Vanilla HTML/CSS/JS (no frontend framework)
