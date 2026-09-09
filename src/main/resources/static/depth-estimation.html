@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Depth Estimation — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container container--wide">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Depth Estimation</h1>
+      <p>Predict how far every pixel is from the camera using Depth Anything V2 — a single photo, no depth sensor.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="image-input">Upload an image <span class="text-muted">(max 4 MB)</span></label>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="image-input" accept="image/*" hidden>
+          <p class="drop-zone-text">Drop an image here or <button type="button" class="link-btn" id="browse-btn">browse</button></p>
+          <img id="upload-preview" class="preview-img" hidden>
+          <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
+        </div>
+
+        <label for="colormap-select">Colormap</label>
+        <select id="colormap-select" class="select">
+          <option value="TURBO" selected>Turbo &mdash; highest contrast between near and far</option>
+          <option value="VIRIDIS">Viridis &mdash; perceptually uniform, colour-blind friendly</option>
+          <option value="GRAYSCALE">Grayscale &mdash; raw, brighter is closer</option>
+        </select>
+
+        <div class="actions">
+          <button class="btn" id="estimate-btn" disabled>Estimate depth</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Results</label>
+        <div class="comparison">
+          <div class="comparison-pane">
+            <span class="comparison-label">Original</span>
+            <img id="original-img" class="comparison-img">
+          </div>
+          <div class="comparison-pane">
+            <span class="comparison-label">Depth map</span>
+            <img id="depth-img" class="comparison-img">
+          </div>
+        </div>
+        <p class="text-muted" id="depth-range"></p>
+      </div>
+
+      <div class="card">
+        <label>Reading the output</label>
+        <p class="text-muted">
+          Values are <strong>relative inverse depth</strong>, not metres &mdash; larger means closer to
+          the camera. The scale is model-dependent and differs between images, so compare values
+          within one depth map rather than across two.
+        </p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/depth-estimation.js"></script>
+</body>
+</html>
