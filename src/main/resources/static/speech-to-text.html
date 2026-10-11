@@ -11,7 +11,7 @@
     <header class="site-header">
       <a href="/" class="back-link">&larr; All demos</a>
       <h1>Speech to Text</h1>
-      <p>Transcribe speech from WAV files using Wav2Vec2.</p>
+      <p>Transcribe speech from WAV files using Wav2Vec2 or Whisper.</p>
     </header>
 
     <section class="demo-section">
@@ -27,6 +27,18 @@
           <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
         </div>
 
+        <div style="margin-top: 1rem;">
+          <label for="model-select">Model</label>
+          <select id="model-select" class="select">
+            <option value="wav2vec2">Wav2Vec2 — raw output</option>
+            <option value="wav2vec2-punctuated">Wav2Vec2 + punctuation &amp; casing (PunctuatedSpeechRecognizer)</option>
+            <option value="whisper">Whisper small (inference4j-genai)</option>
+          </select>
+          <p class="text-muted" id="model-hint" hidden style="margin-top: 0.5rem;">
+            Whisper punctuates and capitalizes on its own. The first request downloads the model (~1.1 GB).
+          </p>
+        </div>
+
         <div class="actions">
           <button class="btn" id="transcribe-btn" disabled>Transcribe</button>
           <div class="spinner" id="spinner"></div>
@@ -35,8 +47,12 @@
       </div>
 
       <div class="card" id="results">
-        <label>Transcription</label>
+        <label>Transcription <span class="text-muted" id="timing"></span></label>
         <p id="transcription" class="transcription-text"></p>
+        <div id="raw-section" hidden style="margin-top: 1rem;">
+          <label>Raw Wav2Vec2 output <span class="text-muted">(for comparison)</span></label>
+          <p id="raw-transcription" class="transcription-text"></p>
+        </div>
       </div>
     </section>
 

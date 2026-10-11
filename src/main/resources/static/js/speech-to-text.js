@@ -10,6 +10,11 @@ const spinner = document.getElementById('spinner');
 const error = document.getElementById('error');
 const results = document.getElementById('results');
 const transcription = document.getElementById('transcription');
+const modelSelect = document.getElementById('model-select');
+const modelHint = document.getElementById('model-hint');
+const timing = document.getElementById('timing');
+const rawSection = document.getElementById('raw-section');
+const rawTranscription = document.getElementById('raw-transcription');
 
 const MAX_SIZE = 4 * 1024 * 1024;
 let selectedFile = null;
@@ -73,6 +78,10 @@ function showError(msg) {
   error.classList.add('visible');
 }
 
+modelSelect.addEventListener('change', () => {
+  modelHint.hidden = modelSelect.value !== 'whisper';
+});
+
 transcribeBtn.addEventListener('click', transcribe);
 
 async function transcribe() {
@@ -86,6 +95,7 @@ async function transcribe() {
   try {
     const form = new FormData();
     form.append('audio', selectedFile);
+    form.append('model', modelSelect.value);
 
     const res = await fetch('/api/speech-to-text', {
       method: 'POST',
@@ -96,6 +106,9 @@ async function transcribe() {
 
     const data = await res.json();
     transcription.textContent = data.text;
+    timing.textContent = `(${data.durationMillis} ms)`;
+    rawTranscription.textContent = data.raw || '';
+    rawSection.hidden = !data.raw;
     results.classList.add('visible');
   } catch (err) {
     showError(err.message);
