@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Transcription — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Live Transcription</h1>
+      <p>Talk into your microphone. Moonshine transcribes each line while you speak, and finalizes it when you pause.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="model-select">Model</label>
+        <select id="model-select" class="select">
+          <option value="small">Moonshine small — more accurate (~140 MB)</option>
+          <option value="tiny">Moonshine tiny — fastest (~46 MB)</option>
+        </select>
+        <p class="text-muted" style="margin-top: 0.5rem;">
+          English only. Audio stays on your machine: the browser streams it to this server, which runs the model
+          with <code>MoonshineRecognizer.stream(vad)</code>.
+        </p>
+
+        <div class="actions">
+          <button class="btn" id="start-btn">Start microphone</button>
+          <button class="btn" id="stop-btn" hidden>Stop</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="live-status" id="status"></span>
+          <span class="error-msg" id="error"></span>
+        </div>
+        <div class="level-meter" id="level-meter" hidden><div class="level-fill" id="level-fill"></div></div>
+      </div>
+
+      <div class="card visible" id="results">
+        <label>Transcript <span class="text-muted" id="stats"></span></label>
+        <div id="transcript" class="live-transcript">
+          <p class="text-muted" id="placeholder">Lines appear here as you speak.</p>
+        </div>
+        <div class="actions" style="margin-top: 1rem;">
+          <button class="btn" id="clear-btn" type="button">Clear</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/live-transcription.js"></script>
+</body>
+</html>

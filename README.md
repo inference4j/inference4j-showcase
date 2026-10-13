@@ -19,7 +19,8 @@ Interactive demos of [inference4j](https://github.com/inference4j/inference4j) â
 | Object Detection | YOLO26 (COCO, 80 classes) | Vision |
 | Visual Search | CLIP (ViT-B/32) | Vision |
 | Text Detection | CRAFT | Vision |
-| Speech to Text | Wav2Vec2 | Audio |
+| Speech to Text | Wav2Vec2 / Whisper | Audio |
+| Live Transcription (microphone) | Moonshine v2 + Silero VAD | Audio |
 | Voice Activity Detection | Silero VAD | Audio |
 | Text Generation | Phi-3 Mini / DeepSeek-R1 1.5B | GenAI |
 | Vision-Language | Phi-3.5 Vision | GenAI |
@@ -54,5 +55,7 @@ Alternatively, configure your IDE to delegate run/debug to Gradle (**Settings > 
 ## Stack
 
 - Spring Boot 4.1
-- [inference4j](https://github.com/inference4j/inference4j) 0.12.0 (Spring Boot starter + core + genai)
+- [inference4j](https://github.com/inference4j/inference4j) `main-SNAPSHOT` from [JitPack](https://jitpack.io/#inference4j/inference4j)
+  (Spring Boot starter + core + genai). The build always resolves the latest commit on inference4j's `main`,
+  so new features show up here without waiting for a Maven Central release.
 - Vanilla HTML/CSS/JS (no frontend framework)

@@ -865,3 +865,54 @@ textarea:focus {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Live transcription */
+
+.live-status {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.level-meter {
+  margin-top: 1rem;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.level-fill {
+  height: 100%;
+  width: 0;
+  background: var(--positive);
+  transition: width 0.08s linear;
+}
+
+.live-transcript {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.live-line {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  line-height: 1.5;
+}
+
+.live-line + .live-line {
+  border-top: 1px solid var(--border);
+}
+
+.live-time {
+  flex: 0 0 3rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding-top: 0.15rem;
+}
+
+.live-line.partial .live-text {
+  color: var(--text-muted);
+  font-style: italic;
+}
