@@ -3,6 +3,8 @@ package net.inference4j.showcase;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -37,20 +39,24 @@ public class TextDetectionController {
 		}
 
 		var detector = cache.get("craft", () -> CraftTextDetector.builder().build());
-		var regions = detector.detect(image, 0.4f, 0.4f);
+		var regions = detector.detect(image);
 
 		var annotated = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 		Graphics2D g = annotated.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(image, 0, 0, null);
 		g.setColor(new Color(79, 70, 229)); // accent color
 		g.setStroke(new BasicStroke(2));
 		for (var region : regions) {
-			var box = region.box();
-			int x = Math.round(box.x1());
-			int y = Math.round(box.y1());
-			int w = Math.round(box.width());
-			int h = Math.round(box.height());
-			g.drawRect(x, y, w, h);
+			// The outline follows rotated text; the axis-aligned box would not
+			var outline = new Path2D.Float();
+			var corners = region.polygon();
+			outline.moveTo(corners.get(0).x(), corners.get(0).y());
+			for (int i = 1; i < corners.size(); i++) {
+				outline.lineTo(corners.get(i).x(), corners.get(i).y());
+			}
+			outline.closePath();
+			g.draw(outline);
 		}
 		g.dispose();
 
