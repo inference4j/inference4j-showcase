@@ -4,10 +4,12 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
-ext.inference4jVersion = '0.13.1'
+// inference4j straight from main, built by JitPack: https://jitpack.io/#inference4j/inference4j
+ext.inference4jGroup = 'com.github.inference4j.inference4j'
+ext.inference4jVersion = 'main-SNAPSHOT'
 
 group = 'net.inference4j'
-version = inference4jVersion
+version = '0.0.1-SNAPSHOT'
 description = 'Demo project for Spring Boot'
 
 java {
@@ -17,17 +19,23 @@ java {
 }
 
 repositories {
-	mavenLocal()
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
+
+// Always resolve the latest commit on inference4j main instead of Gradle's 24-hour snapshot cache
+configurations.configureEach {
+	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.springframework.boot:spring-boot-h2console'
-	implementation "io.github.inference4j:inference4j-spring-boot-starter:${inference4jVersion}"
-	implementation("io.github.inference4j:inference4j-genai:${inference4jVersion}") {
+	implementation "${inference4jGroup}:inference4j-spring-boot-starter:${inference4jVersion}"
+	implementation("${inference4jGroup}:inference4j-genai:${inference4jVersion}") {
 		exclude group: 'org.slf4j', module: 'slf4j-nop'
 	}
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
