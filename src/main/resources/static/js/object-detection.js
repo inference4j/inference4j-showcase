@@ -10,6 +10,52 @@ const results = document.getElementById('results');
 const originalImg = document.getElementById('original-img');
 const annotatedImg = document.getElementById('annotated-img');
 const detectionsTable = document.getElementById('detections-table');
+const modelSelect = document.getElementById('model-select');
+const deviceSelect = document.getElementById('device-select');
+const licenseHint = document.getElementById('license-hint');
+const timing = document.getElementById('timing');
+
+let models = [];
+loadAccelerators(deviceSelect).then(updateLicenseHint);
+loadModels();
+
+async function loadModels() {
+  try {
+    models = await (await fetch('/api/object-detection/models')).json();
+    modelSelect.innerHTML = '';
+    for (const m of models) {
+      const option = document.createElement('option');
+      option.value = m.id;
+      option.textContent = `${m.label} — ${m.license}, ${m.size}`;
+      modelSelect.appendChild(option);
+    }
+  } catch {
+    // keep the default option
+  }
+  updateLicenseHint();
+}
+
+function updateLicenseHint() {
+  const m = models.find(x => x.id === modelSelect.value);
+  if (!m) {
+    licenseHint.textContent = '';
+    return;
+  }
+  // Models whose export CoreML cannot run stay on the CPU
+  for (const option of deviceSelect.options) {
+    option.disabled = option.value !== 'cpu' && !m.coreMlSupported;
+  }
+  if (deviceSelect.selectedOptions[0]?.disabled) deviceSelect.value = 'cpu';
+
+  const license = m.license === 'Apache-2.0'
+    ? 'Apache-2.0: free to use in proprietary software.'
+    : 'AGPL-3.0: software that uses it, including over a network, must be released under the AGPL, '
+      + 'unless you buy a commercial license from Ultralytics.';
+  const device = m.coreMlSupported ? '' : ' This model runs on the CPU only: CoreML cannot run this export.';
+  licenseHint.textContent = license + device;
+}
+
+modelSelect.addEventListener('change', updateLicenseHint);
 
 const MAX_SIZE = 4 * 1024 * 1024;
 let selectedFile = null;
@@ -85,6 +131,8 @@ async function detect() {
   try {
     const form = new FormData();
     form.append('image', selectedFile);
+    form.append('model', modelSelect.value);
+    form.append('device', deviceSelect.value);
 
     const res = await fetch('/api/object-detection', {
       method: 'POST',
@@ -97,6 +145,8 @@ async function detect() {
     originalImg.src = URL.createObjectURL(selectedFile);
     annotatedImg.src = `data:image/png;base64,${data.image}`;
     renderTable(data.detections);
+    const count = `${data.detections.length} object${data.detections.length === 1 ? '' : 's'}`;
+    timing.textContent = `${data.model} · ${timingText(data.device, data.millis, count)}`;
     results.classList.add('visible');
   } catch (err) {
     showError(err.message);
