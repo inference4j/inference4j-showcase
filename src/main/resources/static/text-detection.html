@@ -24,6 +24,11 @@
           <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
         </div>
 
+        <div style="margin-top: 1rem;">
+          <label for="device-select">Run on</label>
+          <select id="device-select" class="select"><option value="cpu">CPU</option></select>
+        </div>
+
         <div class="actions">
           <button class="btn" id="detect-btn" disabled>Detect text</button>
           <div class="spinner" id="spinner"></div>
@@ -40,7 +45,10 @@
           </div>
           <div class="comparison-pane">
             <span class="comparison-label">Detected regions</span>
-            <img id="annotated-img" class="comparison-img">
+            <div class="image-frame">
+              <img id="annotated-img" class="comparison-img">
+              <span class="timing-badge" id="timing"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -51,6 +59,7 @@
     </footer>
   </div>
 
+  <script src="/js/accelerators.js"></script>
   <script src="/js/text-detection.js"></script>
 </body>
 </html>

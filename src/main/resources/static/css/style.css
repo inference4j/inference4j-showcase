@@ -287,6 +287,11 @@ textarea:focus {
   object-fit: contain;
 }
 
+/* The hidden attribute must win over display rules such as .clear-btn's flex */
+[hidden] {
+  display: none !important;
+}
+
 .clear-btn {
   position: absolute;
   top: 0.5rem;
@@ -915,4 +920,128 @@ textarea:focus {
 .live-line.partial .live-text {
   color: var(--text-muted);
   font-style: italic;
+}
+
+/* -- OCR -- */
+
+.ocr-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.ocr-hint {
+  font-size: 0.8rem;
+  margin: 0.6rem 0 0;
+}
+
+.ocr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.ocr-header label {
+  margin-bottom: 0;
+}
+
+.btn--small {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+.ocr-results {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.ocr-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.ocr-line {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+}
+
+.ocr-line + .ocr-line {
+  border-top: 1px solid var(--border);
+}
+
+.ocr-index {
+  flex: none;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 0.3rem;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ocr-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ocr-text {
+  display: block;
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
+.ocr-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+.ocr-empty {
+  color: var(--text-muted);
+  padding: 0.6rem 0;
+}
+
+@media (max-width: 760px) {
+  .ocr-options,
+  .ocr-results {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -- Timing badge on result images -- */
+
+.image-frame {
+  position: relative;
+}
+
+.timing-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.78);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+
+.timing-badge:empty {
+  display: none;
 }
