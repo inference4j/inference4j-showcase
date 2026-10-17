@@ -9,6 +9,10 @@ const error = document.getElementById('error');
 const results = document.getElementById('results');
 const originalImg = document.getElementById('original-img');
 const annotatedImg = document.getElementById('annotated-img');
+const deviceSelect = document.getElementById('device-select');
+const timing = document.getElementById('timing');
+
+loadAccelerators(deviceSelect);
 
 const MAX_SIZE = 4 * 1024 * 1024;
 let selectedFile = null;
@@ -84,6 +88,7 @@ async function detect() {
   try {
     const form = new FormData();
     form.append('image', selectedFile);
+    form.append('device', deviceSelect.value);
 
     const res = await fetch('/api/text-detection', {
       method: 'POST',
@@ -93,6 +98,9 @@ async function detect() {
     if (!res.ok) throw new Error(`Server error (${res.status})`);
 
     const blob = await res.blob();
+    const regions = res.headers.get('X-Region-Count');
+    timing.textContent = timingText(res.headers.get('X-Inference-Device') || 'CPU',
+        res.headers.get('X-Inference-Millis'), `${regions} region${regions === '1' ? '' : 's'}`);
     originalImg.src = URL.createObjectURL(selectedFile);
     annotatedImg.src = URL.createObjectURL(blob);
     results.classList.add('visible');
