@@ -1065,3 +1065,18 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 }
+
+.result-bar-fill.neutral {
+  background: var(--accent);
+  opacity: 0.45;
+}
+
+#labels-input {
+  cursor: text;
+}
+
+.zero-shot-results .result-label {
+  text-transform: none;   /* labels are shown as typed */
+  flex: 0 0 11rem;        /* one column, so the bars line up */
+  overflow-wrap: anywhere;
+}

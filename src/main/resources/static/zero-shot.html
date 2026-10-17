@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero-Shot Classification — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Zero-Shot Text Classification</h1>
+      <p>Classify text into labels you choose now, with no training: a DeBERTa-v3 NLI model judges whether the text
+        entails "This text is about &lt;label&gt;."</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="input-text">Text</label>
+        <textarea id="input-text" placeholder="Type something or pick an example below..."></textarea>
+
+        <label for="labels-input" style="margin-top: 1rem;">Labels <span class="text-muted">(comma-separated)</span></label>
+        <input type="text" id="labels-input" class="select" placeholder="billing, outage, feature request">
+
+        <div class="option-row">
+          <div>
+            <label for="model-select">Model</label>
+            <select id="model-select" class="select">
+              <option value="base">DeBERTa-v3 base (740 MB)</option>
+              <option value="large">DeBERTa-v3 large (1.7 GB, more accurate)</option>
+            </select>
+          </div>
+          <div>
+            <label for="mode-select">Labels are</label>
+            <select id="mode-select" class="select">
+              <option value="single">Exclusive: exactly one applies</option>
+              <option value="multi">Independent: any number apply</option>
+            </select>
+          </div>
+        </div>
+        <p class="text-muted option-hint" id="mode-hint"></p>
+
+        <div class="actions">
+          <button class="btn" id="classify-btn">Classify</button>
+          <div class="spinner" id="spinner"></div>
+          <span class="error-msg" id="error"></span>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label>Examples</label>
+          <div class="examples">
+            <button class="example-btn" data-text="My invoice shows the same charge twice." data-labels="billing, outage, feature request, account access">Support ticket</button>
+            <button class="example-btn" data-text="I can't log in after resetting my password, and I was charged for a plan I cancelled." data-labels="billing, account access, outage" data-mode="multi">Two problems at once</button>
+            <button class="example-btn" data-text="The striker scored twice in the second half to win the cup final." data-labels="sports, business, technology, science">News topic</button>
+            <button class="example-btn" data-text="Can you move my dentist appointment to Friday afternoon?" data-labels="scheduling, cancellation, complaint, question about price">Intent</button>
+            <button class="example-btn" data-text="The battery lasts two days, but the screen scratches far too easily." data-labels="battery life, display, price, customer service" data-mode="multi">Product feedback</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <label>Results <span class="text-muted" id="summary"></span></label>
+        <div id="results-body" class="zero-shot-results"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/zero-shot.js"></script>
+</body>
+</html>
