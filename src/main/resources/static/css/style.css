@@ -1031,7 +1031,7 @@ textarea:focus {
 
 .timing-badge {
   position: absolute;
-  top: 0.5rem;
+  bottom: 0.75rem;
   right: 0.5rem;
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
@@ -1044,4 +1044,24 @@ textarea:focus {
 
 .timing-badge:empty {
   display: none;
+}
+
+/* -- Option rows (model / device pickers) -- */
+
+.option-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.option-hint {
+  font-size: 0.8rem;
+  margin: 0.6rem 0 0;
+}
+
+@media (max-width: 760px) {
+  .option-row {
+    grid-template-columns: 1fr;
+  }
 }
