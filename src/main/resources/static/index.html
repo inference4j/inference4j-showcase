@@ -14,8 +14,8 @@
     </header>
 
     <nav class="filters" aria-label="Filter demos by domain">
-        <button type="button" class="filter-chip" data-filter="all" aria-pressed="true">All <span class="count">21</span></button>
-        <button type="button" class="filter-chip" data-filter="vision" aria-pressed="false">Vision <span class="count">6</span></button>
+        <button type="button" class="filter-chip" data-filter="all" aria-pressed="true">All <span class="count">23</span></button>
+        <button type="button" class="filter-chip" data-filter="vision" aria-pressed="false">Vision <span class="count">8</span></button>
         <button type="button" class="filter-chip" data-filter="audio" aria-pressed="false">Audio <span class="count">3</span></button>
         <button type="button" class="filter-chip" data-filter="nlp" aria-pressed="false">NLP <span class="count">10</span></button>
         <button type="button" class="filter-chip" data-filter="genai" aria-pressed="false">GenAI <span class="count">2</span></button>
@@ -25,7 +25,7 @@
       <section class="demo-group" data-group="vision" id="vision">
         <div class="demo-group-header">
           <h2>Vision</h2>
-          <p>Classify, detect, read and measure what's in an image.</p>
+          <p>Classify, detect, segment, read and measure what's in an image.</p>
         </div>
         <div class="demos">
         <a href="/image-classification.html" class="demo-card" style="--i: 0">
@@ -56,6 +56,18 @@
         <a href="/depth-estimation.html" class="demo-card" style="--i: 5">
         <h3>Depth Estimation</h3>
         <p>Predict per-pixel depth from a single photo with Depth Anything V2.</p>
+      </a>
+
+        <a href="/click-to-segment.html" class="demo-card" style="--i: 6">
+        <span class="badge experimental">New</span>
+        <h3>Click to Segment</h3>
+        <p>Click any object and SAM 2.1 outlines it, then download a transparent cut-out.</p>
+      </a>
+
+        <a href="/detect-and-segment.html" class="demo-card" style="--i: 7">
+        <span class="badge experimental">New</span>
+        <h3>Detect &amp; Segment</h3>
+        <p>D-FINE finds the objects and SAM 2.1 turns every box into an exact mask.</p>
       </a>
         </div>
       </section>
