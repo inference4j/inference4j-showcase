@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click to Segment — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container container--wide">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Click to Segment</h1>
+      <p>Click any object and SAM 2.1 outlines it. The image is encoded once, so every click after that is fast.</p>
+    </header>
+
+    <section class="demo-section">
+      <div class="card">
+        <label for="image-input">Upload an image <span class="text-muted">(max 4 MB)</span></label>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="image-input" accept="image/*" hidden>
+          <p class="drop-zone-text">Drop an image here or <button type="button" class="link-btn" id="browse-btn">browse</button></p>
+          <img id="upload-preview" class="preview-img" hidden>
+          <button type="button" class="clear-btn" id="clear-btn" hidden>&times;</button>
+        </div>
+        <div class="actions">
+          <div class="spinner" id="spinner"></div>
+          <span class="text-muted" id="status"></span>
+          <span class="error-msg" id="error"></span>
+        </div>
+      </div>
+
+      <div class="card" id="results">
+        <div class="seg-toolbar" role="toolbar" aria-label="Prompt tools">
+          <div class="seg-tools" role="radiogroup" aria-label="Tool">
+            <button type="button" class="seg-tool" data-tool="include" aria-pressed="true">+ Include</button>
+            <button type="button" class="seg-tool" data-tool="exclude" aria-pressed="false">&minus; Exclude</button>
+            <button type="button" class="seg-tool" data-tool="box" aria-pressed="false">&#9634; Box</button>
+          </div>
+          <div class="seg-tools">
+            <button type="button" class="btn btn-secondary" id="undo-btn" disabled>Undo</button>
+            <button type="button" class="btn btn-secondary" id="reset-btn" disabled>Reset</button>
+            <button type="button" class="btn" id="download-btn" disabled>Download cut-out</button>
+          </div>
+        </div>
+
+        <div class="image-frame seg-stage">
+          <canvas id="stage" class="seg-canvas"></canvas>
+          <span class="timing-badge" id="timing"></span>
+        </div>
+        <p class="text-muted option-hint" id="hint">
+          <strong>Include</strong>: click the object. <strong>Exclude</strong>: click a part the mask should not
+          cover. <strong>Box</strong>: drag a rectangle around the object.
+        </p>
+
+        <div id="candidates" class="seg-candidates" hidden>
+          <label>SAM's proposals <span class="text-muted">&mdash; a click can mean a part or the whole; pick one</span></label>
+          <div class="seg-candidate-list" id="candidate-list"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <label>How it works</label>
+        <p class="text-muted">
+          On upload the server runs SAM 2.1's image encoder once and keeps the result
+          (<code>ImageFeatures</code>). Each click or box then runs only the small prompt decoder, which
+          proposes three masks with a predicted quality score.
+        </p>
+<pre class="code-snippet"><code>ImageFeatures features = sam.encode(image);          // once per image
+List&lt;SegmentationMask&gt; masks = sam.segmentCandidates(features,
+        Prompt.point(320, 240).withBackground(300, 400));
+BufferedImage cutout = masks.get(0).applyTo(image);</code></pre>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+
+  <script src="/js/click-to-segment.js"></script>
+</body>
+</html>
