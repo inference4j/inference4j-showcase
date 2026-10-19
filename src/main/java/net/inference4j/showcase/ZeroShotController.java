@@ -31,8 +31,7 @@ public class ZeroShotController {
 
 	@PostMapping
 	public ZeroShotResponse classify(@RequestBody ZeroShotRequest request) {
-		List<String> labels = request.labels() == null ? List.of()
-				: request.labels().stream().map(String::strip).filter(l -> !l.isEmpty()).distinct().toList();
+		List<String> labels = Labels.clean(request.labels());
 		if (request.text() == null || request.text().isBlank() || labels.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Enter a text and at least one label");
 		}

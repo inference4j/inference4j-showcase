@@ -13,128 +13,175 @@
       <p>Interactive demos of Java AI inference — powered by ONNX Runtime.</p>
     </header>
 
-    <div class="demos">
-      <a href="/sentiment.html" class="demo-card">
-        <span class="tag">NLP</span>
-        <h2>Sentiment Analysis</h2>
-        <p>Classify text as positive or negative using DistilBERT.</p>
-      </a>
+    <nav class="filters" aria-label="Filter demos by domain">
+        <button type="button" class="filter-chip" data-filter="all" aria-pressed="true">All <span class="count">21</span></button>
+        <button type="button" class="filter-chip" data-filter="vision" aria-pressed="false">Vision <span class="count">6</span></button>
+        <button type="button" class="filter-chip" data-filter="audio" aria-pressed="false">Audio <span class="count">3</span></button>
+        <button type="button" class="filter-chip" data-filter="nlp" aria-pressed="false">NLP <span class="count">10</span></button>
+        <button type="button" class="filter-chip" data-filter="genai" aria-pressed="false">GenAI <span class="count">2</span></button>
+    </nav>
 
-      <a href="/zero-shot.html" class="demo-card">
-        <span class="tag">NLP</span>
-        <h2>Zero-Shot Classification</h2>
-        <p>Classify text into labels you choose, with no training, using a DeBERTa-v3 NLI model.</p>
-      </a>
-
-      <a href="/image-classification.html" class="demo-card">
-        <span class="tag">Vision</span>
-        <h2>Image Classification</h2>
+    <main class="demo-groups">
+      <section class="demo-group" data-group="vision" id="vision">
+        <div class="demo-group-header">
+          <h2>Vision</h2>
+          <p>Classify, detect, read and measure what's in an image.</p>
+        </div>
+        <div class="demos">
+        <a href="/image-classification.html" class="demo-card" style="--i: 0">
+        <h3>Image Classification</h3>
         <p>Identify objects in images using ResNet or EfficientNet.</p>
       </a>
 
-      <a href="/object-detection.html" class="demo-card">
-        <span class="tag">Vision</span>
-        <h2>Object Detection</h2>
+        <a href="/object-detection.html" class="demo-card" style="--i: 1">
+        <h3>Object Detection</h3>
         <p>Detect and label objects with Apache-2.0 D-FINE / RT-DETRv2 or YOLO26.</p>
       </a>
 
-      <a href="/visual-search.html" class="demo-card">
-        <span class="tag">Vision</span>
-        <h2>Visual Search</h2>
+        <a href="/visual-search.html" class="demo-card" style="--i: 2">
+        <h3>Visual Search</h3>
         <p>Zero-shot image classification with CLIP — describe what to look for.</p>
       </a>
 
-      <a href="/text-detection.html" class="demo-card">
-        <span class="tag">Vision</span>
-        <h2>Text Detection</h2>
+        <a href="/text-detection.html" class="demo-card" style="--i: 3">
+        <h3>Text Detection</h3>
         <p>Locate text regions in images using CRAFT.</p>
       </a>
 
-      <a href="/ocr.html" class="demo-card">
-        <span class="tag">Vision</span>
-        <h2>OCR</h2>
+        <a href="/ocr.html" class="demo-card" style="--i: 4">
+        <h3>OCR</h3>
         <p>Find and read every line of text in an image with PaddleOCR PP-OCRv6.</p>
       </a>
 
-      <a href="/depth-estimation.html" class="demo-card">
-        <span class="tag">Vision</span>
-        <h2>Depth Estimation</h2>
+        <a href="/depth-estimation.html" class="demo-card" style="--i: 5">
+        <h3>Depth Estimation</h3>
         <p>Predict per-pixel depth from a single photo with Depth Anything V2.</p>
       </a>
-
-      <a href="/speech-to-text.html" class="demo-card">
-        <span class="tag">Audio</span>
-        <h2>Speech to Text</h2>
+        </div>
+      </section>
+      <section class="demo-group" data-group="audio" id="audio">
+        <div class="demo-group-header">
+          <h2>Audio</h2>
+          <p>Transcribe speech and find where people are talking.</p>
+        </div>
+        <div class="demos">
+        <a href="/speech-to-text.html" class="demo-card" style="--i: 0">
+        <h3>Speech to Text</h3>
         <p>Transcribe speech from WAV files using Wav2Vec2.</p>
       </a>
 
-      <a href="/live-transcription.html" class="demo-card">
-        <span class="tag">Audio</span>
+        <a href="/live-transcription.html" class="demo-card" style="--i: 1">
         <span class="badge experimental">New</span>
-        <h2>Live Transcription</h2>
+        <h3>Live Transcription</h3>
         <p>Talk into your microphone and watch Moonshine transcribe it line by line as you speak.</p>
       </a>
 
-      <a href="/voice-activity.html" class="demo-card">
-        <span class="tag">Audio</span>
-        <h2>Voice Activity Detection</h2>
+        <a href="/voice-activity.html" class="demo-card" style="--i: 2">
+        <h3>Voice Activity Detection</h3>
         <p>Detect speech segments in audio using Silero VAD.</p>
       </a>
-
-      <a href="/ner.html" class="demo-card">
-        <span class="tag">NLP</span>
-        <h2>Named Entity Recognition</h2>
-        <p>Extract people, organizations, and locations from text using DistilBERT NER.</p>
+        </div>
+      </section>
+      <section class="demo-group" data-group="nlp" id="nlp">
+        <div class="demo-group-header">
+          <h2>NLP</h2>
+          <p>Understand, extract from and transform text.</p>
+        </div>
+        <div class="demos">
+        <a href="/sentiment.html" class="demo-card" style="--i: 0">
+        <h3>Sentiment Analysis</h3>
+        <p>Classify text as positive or negative using DistilBERT.</p>
       </a>
 
-      <a href="/translation.html" class="demo-card">
-        <span class="tag">NLP</span>
-        <h2>Translation</h2>
+        <a href="/zero-shot.html" class="demo-card" style="--i: 1">
+        <h3>Zero-Shot Classification</h3>
+        <p>Classify text into labels you choose, with no training, using a DeBERTa-v3 NLI model.</p>
+      </a>
+
+        <a href="/ner.html" class="demo-card" style="--i: 2">
+        <h3>Named Entity Recognition</h3>
+        <p>Extract people, organizations and locations with DistilBERT, or entity types you name with GLiNER.</p>
+      </a>
+
+        <a href="/pii.html" class="demo-card" style="--i: 3">
+        <h3>PII Detection &amp; Redaction</h3>
+        <p>Find and redact names, emails, phone numbers, card numbers and more with a PII-tuned GLiNER model.</p>
+      </a>
+
+        <a href="/prompt-injection.html" class="demo-card" style="--i: 4">
+        <h3>Prompt-Injection Detection</h3>
+        <p>Catch inputs that try to override an LLM's instructions, with a local DeBERTa-v3 guardrail.</p>
+      </a>
+
+        <a href="/translation.html" class="demo-card" style="--i: 5">
+        <h3>Translation</h3>
         <p>Translate English to French, German, or Spanish using MarianMT.</p>
       </a>
 
-      <a href="/grammar.html" class="demo-card">
-        <span class="tag">NLP</span>
-        <h2>Grammar Correction</h2>
+        <a href="/grammar.html" class="demo-card" style="--i: 6">
+        <h3>Grammar Correction</h3>
         <p>Fix grammatical errors in text using CoEdit (Grammarly T5).</p>
       </a>
 
-      <a href="/summarization.html" class="demo-card">
-        <span class="tag">NLP</span>
-        <h2>Summarization</h2>
+        <a href="/summarization.html" class="demo-card" style="--i: 7">
+        <h3>Summarization</h3>
         <p>Summarize long text using BART — streamed token by token.</p>
       </a>
 
-      <a href="/text2sql.html" class="demo-card">
-        <span class="tag">NLP</span>
-        <h2>Text to SQL</h2>
+        <a href="/text2sql.html" class="demo-card" style="--i: 8">
+        <h3>Text to SQL</h3>
         <p>Generate SQL queries from natural language using T5 — query the Chinook database live.</p>
       </a>
 
-      <a href="/gpt2.html" class="demo-card">
-        <span class="tag">NLP</span>
-        <h2>Text Generation</h2>
+        <a href="/gpt2.html" class="demo-card" style="--i: 9">
+        <h3>Text Generation</h3>
         <p>Generate text with GPT-2, SmolLM2, or Qwen2.5 — pure ONNX Runtime, streamed token by token.</p>
       </a>
-
-      <a href="/text-generation.html" class="demo-card">
-        <span class="tag genai">GenAI</span>
+        </div>
+      </section>
+      <section class="demo-group" data-group="genai" id="genai">
+        <div class="demo-group-header">
+          <h2>GenAI</h2>
+          <p>Large language and vision-language models via onnxruntime-genai.</p>
+        </div>
+        <div class="demos">
+        <a href="/text-generation.html" class="demo-card" style="--i: 0">
         <span class="badge experimental">Experimental</span>
-        <h2>Text Generation</h2>
+        <h3>Text Generation</h3>
         <p>Generate text with Phi-3 Mini or DeepSeek-R1 — streamed token by token.</p>
       </a>
 
-      <a href="/vision-language.html" class="demo-card">
-        <span class="tag genai">GenAI</span>
+        <a href="/vision-language.html" class="demo-card" style="--i: 1">
         <span class="badge experimental">Experimental</span>
-        <h2>Vision Language</h2>
+        <h3>Vision Language</h3>
         <p>Ask questions about images using Phi-3.5 Vision — streamed token by token.</p>
       </a>
-    </div>
+        </div>
+      </section>
+    </main>
 
     <footer class="site-footer">
       <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
     </footer>
   </div>
+  <script>
+    (function () {
+      var chips = document.querySelectorAll('.filter-chip');
+      var groups = document.querySelectorAll('.demo-group');
+      function apply(filter) {
+        if (!document.querySelector('.filter-chip[data-filter="' + filter + '"]')) filter = 'all';
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === filter)); });
+        groups.forEach(function (g) { g.hidden = filter !== 'all' && g.dataset.group !== filter; });
+      }
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          var f = c.dataset.filter;
+          history.replaceState(null, '', f === 'all' ? location.pathname : '#' + f);
+          apply(f);
+        });
+      });
+      apply(location.hash.slice(1) || 'all');
+    })();
+  </script>
 </body>
 </html>
