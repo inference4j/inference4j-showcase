@@ -1080,3 +1080,55 @@ textarea:focus {
   flex: 0 0 11rem;        /* one column, so the bars line up */
   overflow-wrap: anywhere;
 }
+
+/* -- PII -- */
+
+.pii-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0.35rem 1rem;
+}
+
+.pii-type {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin: 0;
+  cursor: pointer;
+}
+
+#custom-input {
+  cursor: text;
+}
+
+/* -- Prompt injection -- */
+
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  border: 1px solid;
+  font-weight: 600;
+}
+
+.verdict.safe {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+.verdict.injection {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.verdict-detail {
+  font-weight: 400;
+  font-size: 0.85rem;
+  margin-left: auto;
+}

@@ -11,13 +11,29 @@
     <header class="site-header">
       <a href="/" class="back-link">&larr; All demos</a>
       <h1>Named Entity Recognition</h1>
-      <p>Extract people, organizations, locations, and more from text using DistilBERT NER.</p>
+      <p>Extract people, organizations and locations with DistilBERT NER, or entity types you name yourself with
+        GLiNER.</p>
     </header>
 
     <section class="demo-section">
       <div class="card">
         <label for="input-text">Enter text</label>
         <textarea id="input-text" placeholder="Type something or pick an example below..."></textarea>
+
+        <div class="option-row">
+          <div>
+            <label for="model-select">Model</label>
+            <select id="model-select" class="select">
+              <option value="distilbert">DistilBERT NER: person, organization, location, misc</option>
+              <option value="gliner">GLiNER small: entity types you choose</option>
+            </select>
+          </div>
+          <div id="labels-field" hidden>
+            <label for="labels-input">Entity types <span class="text-muted">(comma-separated)</span></label>
+            <input type="text" id="labels-input" class="select" value="person, organization, location">
+          </div>
+        </div>
+        <p class="text-muted option-hint" id="model-hint"></p>
 
         <div class="actions">
           <button class="btn" id="recognize-btn">Recognize</button>
@@ -32,12 +48,14 @@
             <button class="example-btn" data-text="Google announced a partnership with NASA to advance quantum computing research at their Mountain View campus.">Tech news</button>
             <button class="example-btn" data-text="Leonardo da Vinci painted the Mona Lisa in Florence during the Italian Renaissance.">History</button>
             <button class="example-btn" data-text="The United Nations headquarters is located in New York City, near the East River.">Geography</button>
+            <button class="example-btn" data-text="Alice Johnson paid invoice INV-2024-0042 to Acme Corp on 3 March." data-model="gliner" data-labels="person, organization, invoice id, date">Invoice (GLiNER)</button>
+            <button class="example-btn" data-text="The patient was prescribed 20 mg of atorvastatin for high cholesterol and should avoid grapefruit juice." data-model="gliner" data-labels="medication, dosage, condition, food">Medical (GLiNER)</button>
           </div>
         </div>
       </div>
 
       <div class="card" id="results">
-        <label>Annotated text</label>
+        <label>Annotated text <span class="text-muted" id="summary"></span></label>
         <div class="ner-annotated" id="annotated-text"></div>
 
         <div id="entities-section" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border);">
@@ -52,6 +70,7 @@
     </footer>
   </div>
 
+  <script src="/js/entities.js"></script>
   <script src="/js/ner.js"></script>
 </body>
 </html>
