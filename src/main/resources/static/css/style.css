@@ -141,6 +141,7 @@ body {
 .demo-group[data-group="audio"]  { --hue: 150; }
 .demo-group[data-group="nlp"]    { --hue: 262; }
 .demo-group[data-group="genai"]  { --hue: 20; }
+.demo-group[data-group="langchain4j"] { --hue: 340; }
 
 .demo-group {
   padding-top: 1.75rem;

@@ -38,6 +38,9 @@ dependencies {
 	implementation("${inference4jGroup}:inference4j-genai:${inference4jVersion}") {
 		exclude group: 'org.slf4j', module: 'slf4j-nop'
 	}
+	// RAG assistant examples: inference4j models behind LangChain4j interfaces
+	implementation "${inference4jGroup}:inference4j-langchain4j:${inference4jVersion}"
+	implementation 'dev.langchain4j:langchain4j:1.23.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

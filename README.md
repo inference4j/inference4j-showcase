@@ -24,6 +24,8 @@ Interactive demos of [inference4j](https://github.com/inference4j/inference4j) â
 | Voice Activity Detection | Silero VAD | Audio |
 | Text Generation | Phi-3 Mini / DeepSeek-R1 1.5B | GenAI |
 | Vision-Language | Phi-3.5 Vision | GenAI |
+| Call Recordings RAG | Moonshine + Silero VAD, GLiNER PII, nomic-embed, Phi-4-mini | LangChain4j |
+| Scanned Documents RAG | PP-OCRv6, GLiNER PII, DeBERTa guardrail, nomic-embed, Phi-4-mini | LangChain4j |
 
 ## Prerequisites
 

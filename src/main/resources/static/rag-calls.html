@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Call Recordings RAG — inference4j showcase</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/rag.css">
+</head>
+<body data-example="calls">
+  <div class="container rag-container">
+    <header class="site-header">
+      <a href="/" class="back-link">&larr; All demos</a>
+      <h1>Call Recordings RAG</h1>
+      <p>Alice phoned Lakeside Bike Rentals three times around her e-bike rental. Now she asks the support chat what
+        she was told. The recordings are transcribed, personal data is redacted, and the answer points to the moment
+        in the call where it was said. Every model runs in this JVM, behind LangChain4j interfaces.</p>
+    </header>
+
+    <section class="card rag-files">
+      <div class="rag-files-header">
+        <div>
+          <label>Recordings</label>
+          <p class="text-muted rag-files-summary" id="files-summary">Not processed yet.</p>
+        </div>
+        <button class="btn" id="process-btn">Transcribe &amp; index</button>
+      </div>
+      <div class="rag-file-list" id="file-list"></div>
+      <div class="rag-status" id="status" hidden><div class="spinner visible"></div><span id="status-text"></span></div>
+      <span class="error-msg" id="process-error"></span>
+      <div class="rag-detail" id="detail" hidden></div>
+    </section>
+
+    <div class="rag-layout">
+      <section class="rag-chat">
+        <div class="rag-messages" id="messages">
+          <div class="rag-empty" id="chat-empty">Transcribe the recordings, then ask a question.</div>
+        </div>
+        <div class="card rag-input">
+          <textarea id="question" rows="2" placeholder="Ask about something said in the calls..."></textarea>
+          <div class="actions">
+            <button class="btn" id="ask-btn" disabled>Ask</button>
+            <span class="text-muted rag-hint">&#8984;/Ctrl + Enter</span>
+            <span class="error-msg" id="ask-error"></span>
+          </div>
+          <div class="examples rag-examples">
+            <button class="example-btn" data-q="What time did you say I could bring the bike back?">Return time</button>
+            <button class="example-btn" data-q="Is a helmet included with the e-bike?">Helmet</button>
+            <button class="example-btn" data-q="How long will it take for my deposit refund to show on my card?">Deposit refund</button>
+            <button class="example-btn" data-q="Where are the sunglasses I left in the basket?">Lost sunglasses</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="rag-pipeline" aria-label="Pipeline">
+        <div class="rag-pipeline-title"><label>Pipeline</label><span class="text-muted">for the last question</span></div>
+        <div class="rag-step" id="step-retrieval" data-state="idle">
+          <div class="rag-step-head"><span class="rag-dot"></span><strong>Retrieve</strong>
+            <span class="rag-step-model">nomic-embed-text-v1.5 &middot; <code>EmbeddingModel</code></span><span class="rag-ms"></span></div>
+          <div class="rag-step-body"></div>
+        </div>
+        <div class="rag-step" id="step-prompt" data-state="idle">
+          <div class="rag-step-head"><span class="rag-dot"></span><strong>What the model saw</strong>
+            <span class="rag-step-model">redacted transcript excerpts</span></div>
+          <div class="rag-step-body"></div>
+        </div>
+        <div class="rag-step" id="step-answer" data-state="idle">
+          <div class="rag-step-head"><span class="rag-dot"></span><strong>Answer</strong>
+            <span class="rag-step-model">Phi-4-mini (INT4) &middot; <code>StreamingChatModel</code></span><span class="rag-ms"></span></div>
+          <div class="rag-step-body"></div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card rag-how">
+      <label>How it works</label>
+      <ol>
+        <li><code>Inference4jAudioDocumentParser</code> transcribes each recording with Moonshine, cut at pauses by
+          Silero VAD, into documents that carry their start time.</li>
+        <li><code>Inference4jPiiRedactor</code> replaces names and phone numbers with placeholders before anything is
+          stored.</li>
+        <li><code>Inference4jEmbeddingModel</code> embeds the excerpts into an in-memory LangChain4j store.</li>
+        <li>An <code>AiServices</code> assistant retrieves the three closest excerpts and Phi-4-mini answers from them.
+          The sources come from the retrieved excerpts, so each answer can play the moment it is based on.</li>
+      </ol>
+      <p class="text-muted">First use downloads about 6 GB of models (Phi-4-mini is 4.6 GB). Every model is limited
+        to 4 CPU threads. Each question is answered on its own, without chat history.</p>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://github.com/inference4j/inference4j">inference4j</a> &mdash; AI inference for Java
+    </footer>
+  </div>
+  <script src="/js/rag.js"></script>
+</body>
+</html>
