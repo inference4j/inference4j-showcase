@@ -14,11 +14,12 @@
     </header>
 
     <nav class="filters" aria-label="Filter demos by domain">
-        <button type="button" class="filter-chip" data-filter="all" aria-pressed="true">All <span class="count">23</span></button>
+        <button type="button" class="filter-chip" data-filter="all" aria-pressed="true">All <span class="count">25</span></button>
         <button type="button" class="filter-chip" data-filter="vision" aria-pressed="false">Vision <span class="count">8</span></button>
         <button type="button" class="filter-chip" data-filter="audio" aria-pressed="false">Audio <span class="count">3</span></button>
         <button type="button" class="filter-chip" data-filter="nlp" aria-pressed="false">NLP <span class="count">10</span></button>
         <button type="button" class="filter-chip" data-filter="genai" aria-pressed="false">GenAI <span class="count">2</span></button>
+        <button type="button" class="filter-chip" data-filter="langchain4j" aria-pressed="false">LangChain4j <span class="count">2</span></button>
     </nav>
 
     <main class="demo-groups">
@@ -167,6 +168,25 @@
         <span class="badge experimental">Experimental</span>
         <h3>Vision Language</h3>
         <p>Ask questions about images using Phi-3.5 Vision — streamed token by token.</p>
+      </a>
+        </div>
+      </section>
+      <section class="demo-group" data-group="langchain4j" id="langchain4j">
+        <div class="demo-group-header">
+          <h2>LangChain4j</h2>
+          <p>RAG with inference4j models behind LangChain4j interfaces, chat model included, all in one JVM.</p>
+        </div>
+        <div class="demos">
+        <a href="/rag-calls.html" class="demo-card" style="--i: 0">
+        <span class="badge experimental">Experimental</span>
+        <h3>Call Recordings RAG</h3>
+        <p>Transcribe recorded support calls, redact personal data, and answer questions with a link to the moment it was said.</p>
+      </a>
+
+        <a href="/rag-paperwork.html" class="demo-card" style="--i: 1">
+        <span class="badge experimental">Experimental</span>
+        <h3>Scanned Documents RAG</h3>
+        <p>Read scanned forms with OCR, redact personal data, screen messages for prompt injection, and answer from the scans.</p>
       </a>
         </div>
       </section>
