@@ -19,9 +19,12 @@ import javax.imageio.ImageIO;
 
 import io.github.inference4j.session.SessionConfigurer;
 import io.github.inference4j.vision.Detection;
+import io.github.inference4j.vision.DetrDetector;
 import io.github.inference4j.vision.ObjectDetector;
-import io.github.inference4j.vision.RtDetrDetector;
+import io.github.inference4j.vision.PicoDetDetector;
 import io.github.inference4j.vision.Yolo26Detector;
+import io.github.inference4j.vision.YoloV8Detector;
+import io.github.inference4j.vision.YoloXDetector;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,16 +58,33 @@ public class ObjectDetectionController {
 	private static final Map<String, ModelOption> MODELS = new LinkedHashMap<>();
 
 	static {
+		// Apache-2.0 first: every preset below except the Ultralytics YOLOs is free for proprietary use.
 		// MLProgram: CoreML's default NeuralNetwork format changes YOLO26's detections and some RT-DETR labels
 		register(new ModelOption("dfine-small", "D-FINE small", "Apache-2.0", "41 MB", Accelerators.CoreMl.ML_PROGRAM,
-				opts -> RtDetrDetector.dfineSmall().sessionOptions(opts).build()));
+				opts -> DetrDetector.dfineSmall().sessionOptions(opts).build()));
 		// This export's dynamic query count makes CoreML fail (inference4j/onnx-exporter#7)
 		register(new ModelOption("dfine-nano", "D-FINE nano", "Apache-2.0", "15 MB", Accelerators.CoreMl.UNSUPPORTED,
-				opts -> RtDetrDetector.dfineNano().sessionOptions(opts).build()));
+				opts -> DetrDetector.dfineNano().sessionOptions(opts).build()));
+		register(new ModelOption("dfine-medium", "D-FINE medium", "Apache-2.0", "79 MB", Accelerators.CoreMl.ML_PROGRAM,
+				opts -> DetrDetector.dfineMedium().sessionOptions(opts).build()));
+		register(new ModelOption("dfine-large", "D-FINE large", "Apache-2.0", "125 MB", Accelerators.CoreMl.ML_PROGRAM,
+				opts -> DetrDetector.dfineLarge().sessionOptions(opts).build()));
 		register(new ModelOption("rtdetr-v2", "RT-DETRv2 R18", "Apache-2.0", "81 MB", Accelerators.CoreMl.ML_PROGRAM,
-				opts -> RtDetrDetector.rtDetrV2().sessionOptions(opts).build()));
+				opts -> DetrDetector.rtDetrV2().sessionOptions(opts).build()));
+		register(new ModelOption("yolox-nano", "YOLOX-Nano", "Apache-2.0", "3.5 MB", Accelerators.CoreMl.ML_PROGRAM,
+				opts -> YoloXDetector.nano().sessionOptions(opts).build()));
+		register(new ModelOption("yolox-tiny", "YOLOX-Tiny", "Apache-2.0", "19 MB", Accelerators.CoreMl.ML_PROGRAM,
+				opts -> YoloXDetector.tiny().sessionOptions(opts).build()));
+		register(new ModelOption("yolox-s", "YOLOX-S", "Apache-2.0", "34 MB", Accelerators.CoreMl.ML_PROGRAM,
+				opts -> YoloXDetector.s().sessionOptions(opts).build()));
+		register(new ModelOption("picodet-s", "PP-PicoDet S", "Apache-2.0", "4.6 MB", Accelerators.CoreMl.ML_PROGRAM,
+				opts -> PicoDetDetector.s().sessionOptions(opts).build()));
+		register(new ModelOption("picodet-m", "PP-PicoDet M", "Apache-2.0", "13 MB", Accelerators.CoreMl.ML_PROGRAM,
+				opts -> PicoDetDetector.m().sessionOptions(opts).build()));
 		register(new ModelOption("yolo26n", "YOLO26n", "AGPL-3.0", "10 MB", Accelerators.CoreMl.ML_PROGRAM,
 				opts -> Yolo26Detector.builder().sessionOptions(opts).build()));
+		register(new ModelOption("yolov8n", "YOLOv8n", "AGPL-3.0", "13 MB", Accelerators.CoreMl.ML_PROGRAM,
+				opts -> YoloV8Detector.builder().sessionOptions(opts).build()));
 	}
 
 	private static void register(ModelOption option) {

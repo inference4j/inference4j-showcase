@@ -23,11 +23,19 @@ async function loadModels() {
   try {
     models = await (await fetch('/api/object-detection/models')).json();
     modelSelect.innerHTML = '';
+    // One group per license, so the AGPL-3.0 models stand apart from the Apache-2.0 ones
+    const groups = new Map();
     for (const m of models) {
+      if (!groups.has(m.license)) {
+        const group = document.createElement('optgroup');
+        group.label = m.license;
+        groups.set(m.license, group);
+        modelSelect.appendChild(group);
+      }
       const option = document.createElement('option');
       option.value = m.id;
-      option.textContent = `${m.label} — ${m.license}, ${m.size}`;
-      modelSelect.appendChild(option);
+      option.textContent = `${m.label} — ${m.size}`;
+      groups.get(m.license).appendChild(option);
     }
   } catch {
     // keep the default option
