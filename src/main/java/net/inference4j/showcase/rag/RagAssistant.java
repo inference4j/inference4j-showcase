@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import dev.langchain4j.data.document.Document;
-import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.guardrail.InputGuardrail;
@@ -37,11 +36,14 @@ import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import io.github.inference4j.audio.MoonshineRecognizer;
 import io.github.inference4j.audio.SegmentedSpeechRecognizer;
 import io.github.inference4j.audio.SileroVadDetector;
+import io.github.inference4j.genai.ModelSources;
+import io.github.inference4j.genai.nlp.TextGenerator;
 import io.github.inference4j.langchain4j.Inference4jAudioDocumentParser;
 import io.github.inference4j.langchain4j.Inference4jEmbeddingModel;
 import io.github.inference4j.langchain4j.Inference4jOcrDocumentParser;
 import io.github.inference4j.langchain4j.Inference4jPiiRedactor;
 import io.github.inference4j.langchain4j.Inference4jPromptInjectionGuardrail;
+import io.github.inference4j.langchain4j.Inference4jStreamingChatModel;
 import io.github.inference4j.nlp.DebertaPromptInjectionDetector;
 import io.github.inference4j.nlp.GlinerEntityRecognizer;
 import io.github.inference4j.nlp.SentenceTransformerEmbedder;
@@ -82,7 +84,7 @@ public class RagAssistant {
 			"credit card number", "bank account number", "social security number", "passport number", "ip address",
 			"identity document number");
 
-	/** The shop's own reference numbers look like ID numbers to the PII model; they are kept. */
+	/** The shop's own reference numbers look like ID numbers to the PII model; they are kept, not redacted. */
 	private static final Pattern REFERENCE_NUMBER = Pattern.compile("(LB|DR|R)-\\d{4,5}");
 
 	/** Audio is cut at pauses into pieces of at most this length, so answers can point to a moment. */
@@ -124,16 +126,18 @@ public class RagAssistant {
 				.stride(64)
 				.sessionOptions(o -> o.setIntraOpNumThreads(THREADS))
 				.build())
-			.placeholder(entity -> REFERENCE_NUMBER.matcher(entity.text()).matches() ? entity.text()
-					: "[" + entity.label().strip().toUpperCase(Locale.ROOT).replaceAll("[^A-Z0-9]+", "_") + "]")
+			.keep(REFERENCE_NUMBER)
 			.build());
 	}
 
 	private Inference4jAudioDocumentParser audioParser() {
-		return cache.get("rag-audio", () -> new Inference4jAudioDocumentParser(new SegmentedSpeechRecognizer(
-				MoonshineRecognizer.builder().sessionOptions(o -> o.setIntraOpNumThreads(THREADS)).build(),
-				SileroVadDetector.builder().sessionOptions(o -> o.setIntraOpNumThreads(THREADS)).build(),
-				AUDIO_PIECE)));
+		return cache.get("rag-audio", () -> Inference4jAudioDocumentParser.builder()
+			.recognizer(new SegmentedSpeechRecognizer(
+					MoonshineRecognizer.builder().sessionOptions(o -> o.setIntraOpNumThreads(THREADS)).build(),
+					SileroVadDetector.builder().sessionOptions(o -> o.setIntraOpNumThreads(THREADS)).build(),
+					AUDIO_PIECE))
+			.mergeSegments(AUDIO_WINDOW_CHARS)
+			.build());
 	}
 
 	private Inference4jOcrDocumentParser ocrParser() {
@@ -148,8 +152,13 @@ public class RagAssistant {
 				DebertaPromptInjectionDetector.builder().sessionOptions(o -> o.setIntraOpNumThreads(THREADS)).build()));
 	}
 
-	private LocalPhiChatModel chatModel() {
-		return cache.get("rag-phi4", () -> new LocalPhiChatModel(4096, THREADS));
+	private Inference4jStreamingChatModel chatModel() {
+		return cache.get("rag-phi4", () -> new Inference4jStreamingChatModel(TextGenerator.builder()
+			.model(ModelSources.phi4Mini())
+			.maxLength(4096)
+			.temperature(0) // greedy: answers grounded in the sources should not vary between runs
+			.intraOpThreads(THREADS)
+			.build()));
 	}
 
 	// ---------------------------------------------------------------- ingestion
@@ -179,11 +188,10 @@ public class RagAssistant {
 	private Processed processCall(Index index, SourceFile file, Consumer<String> status) throws IOException {
 		status.accept("Transcribing " + file.name() + " (Moonshine + Silero VAD)");
 		long start = System.nanoTime();
-		List<Document> segments;
+		List<Document> windows;
 		try (InputStream in = open(RagExample.CALLS, file)) {
-			segments = audioParser().parseSegments(in);
+			windows = audioParser().parseSegments(in);
 		}
-		List<Document> windows = windows(segments, AUDIO_WINDOW_CHARS);
 		long parseMillis = millisSince(start);
 		windows.forEach(window -> describe(window, file));
 		return redactAndStore(index, file, windows, parseMillis, Map.of("segments", windows.size()), status);
@@ -229,32 +237,6 @@ public class RagAssistant {
 
 		return new Processed(file.name(), file.label(), pieces(documents), pieces(redacted), redactions, details,
 				parseMillis, redactMillis, embedMillis);
-	}
-
-	/** Joins consecutive audio segments into windows of at most {@code maxChars}, keeping the first start time. */
-	static List<Document> windows(List<Document> segments, int maxChars) {
-		List<Document> windows = new ArrayList<>();
-		StringBuilder text = new StringBuilder();
-		long startMs = -1;
-		for (Document segment : segments) {
-			if (!text.isEmpty() && text.length() + segment.text().length() > maxChars) {
-				windows.add(window(text, startMs));
-				text.setLength(0);
-				startMs = -1;
-			}
-			if (startMs < 0) {
-				startMs = segment.metadata().getLong(Inference4jAudioDocumentParser.START_MS);
-			}
-			text.append(text.isEmpty() ? "" : " ").append(segment.text());
-		}
-		if (!text.isEmpty()) {
-			windows.add(window(text, startMs));
-		}
-		return windows;
-	}
-
-	private static Document window(StringBuilder text, long startMs) {
-		return Document.from(text.toString(), new Metadata().put(Inference4jAudioDocumentParser.START_MS, startMs));
 	}
 
 	private static void describe(Document document, SourceFile file) {

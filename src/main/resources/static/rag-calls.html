@@ -76,11 +76,13 @@
       <label>How it works</label>
       <ol>
         <li><code>Inference4jAudioDocumentParser</code> transcribes each recording with Moonshine, cut at pauses by
-          Silero VAD, into documents that carry their start time.</li>
+          Silero VAD; <code>mergeSegments(300)</code> joins neighbouring pieces into excerpts that carry their start
+          time.</li>
         <li><code>Inference4jPiiRedactor</code> replaces names and phone numbers with placeholders before anything is
           stored.</li>
         <li><code>Inference4jEmbeddingModel</code> embeds the excerpts into an in-memory LangChain4j store.</li>
-        <li>An <code>AiServices</code> assistant retrieves the three closest excerpts and Phi-4-mini answers from them.
+        <li>An <code>AiServices</code> assistant retrieves the three closest excerpts and Phi-4-mini, behind
+          <code>Inference4jStreamingChatModel</code>, answers from them.
           The sources come from the retrieved excerpts, so each answer can play the moment it is based on.</li>
       </ol>
       <p class="text-muted">First use downloads about 6 GB of models (Phi-4-mini is 4.6 GB). Every model is limited

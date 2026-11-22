@@ -84,10 +84,12 @@
       <ol>
         <li><code>Inference4jOcrDocumentParser</code> reads each scan with PP-OCRv6, one document per form.</li>
         <li><code>Inference4jPiiRedactor</code> replaces the customer's name, phone, email and ID number with
-          placeholders before anything is stored. The shop's own reference numbers are kept.</li>
+          placeholders before anything is stored. <code>keep(...)</code> leaves the shop's own reference numbers
+          in place.</li>
         <li><code>Inference4jEmbeddingModel</code> embeds the forms into an in-memory LangChain4j store.</li>
         <li>An <code>AiServices</code> assistant retrieves the two closest forms, runs
-          <code>Inference4jPromptInjectionGuardrail</code> on the message, and Phi-4-mini answers from the forms. A
+          <code>Inference4jPromptInjectionGuardrail</code> on the message, and Phi-4-mini, behind
+          <code>Inference4jStreamingChatModel</code>, answers from the forms. A
           blocked message never reaches the model.</li>
       </ol>
       <p class="text-muted">First use downloads about 6 GB of models (Phi-4-mini is 4.6 GB). Every model is limited
