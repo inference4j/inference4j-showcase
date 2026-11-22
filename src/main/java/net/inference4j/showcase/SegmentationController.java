@@ -21,10 +21,10 @@ import javax.imageio.ImageIO;
 
 import io.github.inference4j.vision.BoundingBox;
 import io.github.inference4j.vision.Detection;
+import io.github.inference4j.vision.DetrDetector;
 import io.github.inference4j.vision.ImageFeatures;
 import io.github.inference4j.vision.ObjectDetector;
 import io.github.inference4j.vision.Prompt;
-import io.github.inference4j.vision.RtDetrDetector;
 import io.github.inference4j.vision.Sam2Segmenter;
 import io.github.inference4j.vision.SegmentationMask;
 
@@ -245,7 +245,7 @@ public class SegmentationController {
 
 	private ObjectDetector detector() {
 		// Same key as the object detection demo on the CPU, so the two pages share one loaded detector
-		return cache.get("detector-dfine-small-cpu", () -> RtDetrDetector.dfineSmall().build());
+		return cache.get("detector-dfine-small-cpu", () -> DetrDetector.dfineSmall().build());
 	}
 
 	private static BufferedImage readImage(MultipartFile file) throws IOException {
