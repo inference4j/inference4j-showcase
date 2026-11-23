@@ -1346,3 +1346,45 @@ textarea:focus {
   color: #e5e7eb;
   border-radius: 8px;
 }
+
+/* -- Pose detection -- */
+
+.pose-person + .pose-person {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.pose-angles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.pose-angle {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.pose-angle-name {
+  color: var(--text-muted, inherit);
+}
+
+.pose-angle-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.pose-angle--hidden {
+  opacity: 0.5;
+}
+
+.range {
+  width: 100%;
+}
