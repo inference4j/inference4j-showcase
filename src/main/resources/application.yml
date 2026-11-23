@@ -33,6 +33,10 @@ inference4j:
       enabled: false
     vad:
       enabled: false
+  # Model cache dashboard at /inference4j/ (needs an inference4j build with the dashboard)
+  dashboard:
+    enabled: true
+    read-only: false
 
 showcase:
   model-cache:

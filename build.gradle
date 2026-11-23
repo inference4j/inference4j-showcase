@@ -5,8 +5,11 @@ plugins {
 }
 
 // inference4j straight from main, built by JitPack: https://jitpack.io/#inference4j/inference4j
-ext.inference4jGroup = 'com.github.inference4j.inference4j'
-ext.inference4jVersion = 'main-SNAPSHOT'
+// To test a local build instead: run `./gradlew publishToMavenLocal -x test` in inference4j,
+// then pass -Pinference4jLocal here (optionally -Pinference4jLocalVersion=x.y.z).
+def useLocalInference4j = project.hasProperty('inference4jLocal')
+ext.inference4jGroup = useLocalInference4j ? 'io.github.inference4j' : 'com.github.inference4j.inference4j'
+ext.inference4jVersion = useLocalInference4j ? (findProperty('inference4jLocalVersion') ?: '0.15.0') : 'main-SNAPSHOT'
 
 group = 'net.inference4j'
 version = '0.0.1-SNAPSHOT'
@@ -19,6 +22,9 @@ java {
 }
 
 repositories {
+	if (useLocalInference4j) {
+		mavenLocal()
+	}
 	mavenCentral()
 	maven { url 'https://jitpack.io' }
 }
